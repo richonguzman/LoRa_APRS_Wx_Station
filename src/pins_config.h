@@ -19,3 +19,14 @@
 #define LORA_IRQ            26  // IRQ --> DIO0
 
 #endif
+
+// ***** Connections ******
+/*  BH1750 / GY-302     ESP32/LoRa32 v1.6/v2.1
+    VCC                 3.3V
+    GND                 GND
+    SDA                 io_21
+    SCL                 io_22
+    ADDR                ---
+*/
+
+/*  BME280 uses the same I2C pinouts as BH1750 */

@@ -20,9 +20,10 @@ String      comment         = "Experimental LoRa Wx Station";
 void setup() {
     Serial.begin(115200);
     delay(4000);
+    
     pinMode(internalLedPin, OUTPUT);
     LoRa_Utils::setup();
-    //WX_Utils::setupBME();
+    WX_Utils::setupSensors();
 }
 
 void loop() { 
