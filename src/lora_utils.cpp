@@ -11,11 +11,11 @@ int power = 20;
 namespace LoRa_Utils {
 
     void setup() {        
-        Serial.println("LoRa   Set SPI pins!");
+        Serial.println("LoRa  Set SPI pins!");
         SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_CS);
         LoRa.setPins(LORA_CS, LORA_RST, LORA_IRQ);
         if (!LoRa.begin(freq)) {
-            Serial.println("LoRa   Starting LoRa failed!");
+            Serial.println("LoRa  Starting LoRa failed!");
             while (true) {
                 delay(1000);
             }
@@ -25,18 +25,20 @@ namespace LoRa_Utils {
         LoRa.setCodingRate4(codingRate);
         LoRa.enableCrc();
         LoRa.setTxPower(power);
-        Serial.println("LoRa   LoRa init done!");
+        Serial.println("LoRa  LoRa init done!");
         String currentLoRainfo = "LoRa Freq: " + String(freq)  + " / SF:" + String(spreadingFactor) + " / CR: " + String(codingRate);
         Serial.print("LoRa  "); Serial.println(currentLoRainfo);   
     }
 
     void sendNewPacket(const String &newPacket) {
+        digitalWrite(internalLedPin, HIGH);
         LoRa.beginPacket();
         LoRa.write('<');
         LoRa.write(0xFF);
         LoRa.write(0x01);
         LoRa.write((const uint8_t *)newPacket.c_str(), newPacket.length());
         LoRa.endPacket();
+        digitalWrite(internalLedPin, LOW);
     }
 
 }
