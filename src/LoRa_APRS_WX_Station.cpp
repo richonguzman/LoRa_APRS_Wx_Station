@@ -29,7 +29,7 @@ void setup() {
 void loop() { 
     WX_Utils::loop();
 }
-// medir luminosidad.
+
 // medir viento.
 // medir lluvia.
 //---- display?
