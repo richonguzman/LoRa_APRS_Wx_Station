@@ -41,7 +41,7 @@
 
     ESP32       RS485/TTL   |   RS485/TTL   RS485-WindDirectionSensor
     3.3V        VCC         |   GND         Black     
-    34          RXD         |   A+          Green
+    34          RXD         |   A+          Yellow
     4           TXD         |   B-          Blue
     GND         GND         |               Brown (to 10-30 VDC)
 

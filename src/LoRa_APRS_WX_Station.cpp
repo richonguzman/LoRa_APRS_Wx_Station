@@ -20,6 +20,11 @@ String      comment         = "Experimental LoRa Wx Station";
 
 String Temperature, Humidity, BarometricPressure, Luminosity, WindDirection, WindSpeed, Gust, RainLastHr, RainLast24Hr;
 
+//
+String anguloViento = "0";
+String velocidadViento = "0";
+//
+
 void setup() {
     Serial.begin(115200);
     delay(4000);

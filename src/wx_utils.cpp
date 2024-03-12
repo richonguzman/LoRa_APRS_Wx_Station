@@ -26,6 +26,11 @@ String datoGPSLat = "3301.95S";     // reemplazar!
 String datoGPSLon = "07134.25W";    // reemplazar!
 //
 
+//
+extern String anguloViento;
+extern String velocidadViento;
+//
+
 
 extern String Temperature;
 extern String Humidity;
@@ -47,13 +52,14 @@ namespace WX_Utils {
 
         String wxPacket = WindDirection + "/" + WindSpeed + "g" + Gust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         
-        return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment;
+        return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment + " Viento:" + velocidadViento;// + anguloViento
     }
 
     void loop() {
         RAIN_Utils::loop();
         uint32_t lastTx = millis() - lastBeaconTx;
-        if (lastTx >= beaconInterval*60*1000) {         //if (lastTx >= beaconInterval*5*1000) {
+        //if (lastTx >= beaconInterval*60*1000) {         
+        if (lastTx >= beaconInterval*10*1000) {
             beaconUpdate = true;    
         }
         if (beaconUpdate) {            
