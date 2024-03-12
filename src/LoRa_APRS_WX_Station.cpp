@@ -3,6 +3,7 @@
 #include "pins_config.h"
 #include "wx_utils.h"
 
+HardwareSerial rs485Serial(1);
 
 uint32_t    lastBeaconTx    = 0;
 bool        beaconUpdate    = true;
@@ -17,10 +18,11 @@ String      symbol          = "_";
 String      comment         = "Experimental LoRa Wx Station";
 //
 
+String Temperature, Humidity, BarometricPressure, Luminosity, WindDirection, WindSpeed, Gust, RainLastHr, RainLast24Hr;
+
 void setup() {
     Serial.begin(115200);
     delay(4000);
-    
     pinMode(internalLedPin, OUTPUT);
     LoRa_Utils::setup();
     WX_Utils::setupSensors();
@@ -30,6 +32,9 @@ void loop() {
     WX_Utils::loop();
 }
 
+
+// TODO
+//---- display?
+// enviar Luminosity con L y l
 // medir viento.
 // medir lluvia.
-//---- display?

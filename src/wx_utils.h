@@ -5,9 +5,6 @@
 
 namespace WX_Utils {
 
-    void setupBME280();
-    void setupBH1750();
-    //void readSensor_BME280();
     void loop();
     void setupSensors();
 

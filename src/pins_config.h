@@ -11,12 +11,18 @@
 
 #define internalLedPin      25 
 
+
+// LoRA SX1278
 #define LORA_SCK            5
 #define LORA_MISO           19
 #define LORA_MOSI           27
 #define LORA_CS             18  // CS  --> NSS
 #define LORA_RST            23
 #define LORA_IRQ            26  // IRQ --> DIO0
+
+// RS485 to TTL
+#define RS485_RXD           34  // UART1 RXD pin
+#define RS485_TXD           4   // UART1 TXD pin
 
 #endif
 
@@ -30,3 +36,13 @@
 */
 
 /*  BME280 uses the same I2C pinouts as BH1750 */
+
+/*  RS485 to TTLWind Direction Sensor
+
+    ESP32       RS485/TTL   |   RS485/TTL   RS485-WindDirectionSensor
+    3.3V        VCC         |   GND         Black     
+    34          RXD         |   A+          Green
+    4           TXD         |   B-          Blue
+    GND         GND         |               Brown (to 10-30 VDC)
+
+*/
