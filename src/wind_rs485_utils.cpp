@@ -7,12 +7,12 @@ extern HardwareSerial rs485Serial;
 extern String WindDirection;
 extern String WindSpeed;
 extern String Gust;
+extern String fifthLine;
 
 //
 extern String anguloViento;
 extern String velocidadViento;
 //
-
 
 namespace WIND_RS485_Utils {
     
@@ -23,6 +23,7 @@ namespace WIND_RS485_Utils {
 
     void readSensor_WindSpeed() {
         WindSpeed            = "002";    // mph
+
     }
 
     void readSensor_WindDirection() {
@@ -170,6 +171,8 @@ namespace WIND_RS485_Utils {
         readSensor_WindSpeed();
         //  calcular wind gust!
         Gust                 = "003";    // peak wind speed in last 5 min.
+        //fifthLine = "Wind: " + WindSpeed + "(" + Gust + ")m/s " + WindDirection;
+        fifthLine = "Wind: " + WindSpeed + "(" + Gust + ")m/s " + "N/E";
     }
 
 }

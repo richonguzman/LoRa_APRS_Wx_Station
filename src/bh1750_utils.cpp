@@ -5,6 +5,7 @@
 #define luminousEfficacy (112.0)  // Luminous efficacy for sunlight in lumens per watt
 
 extern String Luminosity;
+extern String seventhLine;
 
 namespace BH1750_Utils {
 
@@ -66,6 +67,7 @@ namespace BH1750_Utils {
             }
         }*/
         Luminosity = generateLumString(lux/luminousEfficacy);
+        seventhLine = "Luminosity : " + Luminosity + " W/m2";
     }    
 
 }

@@ -2,6 +2,7 @@
 #include "lora_utils.h"
 #include "pins_config.h"
 #include "wx_utils.h"
+#include "display.h"
 
 HardwareSerial rs485Serial(1);
 
@@ -19,6 +20,7 @@ String      comment         = "Experimental LoRa Wx Station";
 //
 
 String Temperature, Humidity, BarometricPressure, Luminosity, WindDirection, WindSpeed, Gust, RainLastHr, RainLast24Hr;
+String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
 //
 String anguloViento = "0";
@@ -28,6 +30,7 @@ String velocidadViento = "0";
 void setup() {
     Serial.begin(115200);
     delay(4000);
+    setup_display();
     pinMode(internalLedPin, OUTPUT);
     LoRa_Utils::setup();
     WX_Utils::setupSensors();
@@ -35,11 +38,12 @@ void setup() {
 
 void loop() { 
     WX_Utils::loop();
+    show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
 
 
 // TODO
-//---- display?
 // enviar Luminosity con L y l
-// medir viento.
+// medir viento 
+// grabar 2 addrress
 // medir lluvia.

@@ -42,12 +42,14 @@ extern String Gust;
 extern String RainLastHr;
 extern String RainLast24Hr;
 
+extern String firstLine;
+
+
 namespace WX_Utils {
 
     String buildWxStationPacket() {
         BME280_Utils::readSensor();
         BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
-        
         WIND_RS485_Utils::readSensor();
 
         String wxPacket = WindDirection + "/" + WindSpeed + "g" + Gust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
@@ -64,7 +66,7 @@ namespace WX_Utils {
         }
         if (beaconUpdate) {            
             String wxPacket = buildWxStationPacket();
-            LoRa_Utils::sendNewPacket(wxPacket);
+            //LoRa_Utils::sendNewPacket(wxPacket);
             Serial.println("Enviando packet ---> " + wxPacket);
             lastBeaconTx = millis();
             beaconUpdate = false;
@@ -75,7 +77,7 @@ namespace WX_Utils {
     }
 
     void setupSensors() {
-        Wire.begin();       //Wire.begin(OLED_SDA, OLED_SCL);
+        //Wire.begin();       //Wire.begin(OLED_SDA, OLED_SCL);
         Serial.println("\nSensors INI...");
         BME280_Utils::setup();
         BH1750_Utils::setup();
@@ -84,6 +86,7 @@ namespace WX_Utils {
 
         RAIN_Utils::setup();
         
+        firstLine = callsign;
         Serial.println("\n");
     }
 

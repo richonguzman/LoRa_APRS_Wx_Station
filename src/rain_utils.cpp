@@ -3,6 +3,8 @@
 
 extern String RainLastHr;
 extern String RainLast24Hr;
+extern String sixthLine;
+
 
 namespace RAIN_Utils { 
 
@@ -15,6 +17,7 @@ namespace RAIN_Utils {
         //lluvia : ultimas 24hrs, ultima hr
         RainLastHr           = "004";    // hundreths of inch
         RainLast24Hr         = "020";    // hundreths of inch
+        sixthLine = "R1h: " + RainLastHr + " / R24hr: " + RainLast24Hr;
     }
 
 }
