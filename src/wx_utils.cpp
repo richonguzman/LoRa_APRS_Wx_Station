@@ -55,13 +55,13 @@ namespace WX_Utils {
     void loop() {
         RAIN_Utils::loop();
         uint32_t lastTx = millis() - lastBeaconTx;
-        //if (lastTx >= beaconInterval*60*1000) {         
-        if (lastTx >= beaconInterval*10*1000) {
+        if (lastTx >= beaconInterval*60*1000) {         
+        //if (lastTx >= beaconInterval*3*1000) {
             beaconUpdate = true;    
         }
         if (beaconUpdate) {            
             String wxPacket = buildWxStationPacket();
-            //LoRa_Utils::sendNewPacket(wxPacket);
+            LoRa_Utils::sendNewPacket(wxPacket);
             Serial.println("Enviando packet ---> " + wxPacket);
             lastBeaconTx = millis();
             beaconUpdate = false;

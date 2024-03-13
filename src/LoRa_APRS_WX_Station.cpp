@@ -9,7 +9,7 @@ HardwareSerial rs485Serial(1);
 
 uint32_t    lastBeaconTx    = 0;
 bool        beaconUpdate    = true;
-int         beaconInterval  = 1; //min
+int         beaconInterval  = 10; //min
 
 // desde Config
 String      callsign            = "CA2RXU-13";
