@@ -23,13 +23,8 @@ uint8_t     OldSensorAddress    = 0x01;
 uint8_t     NewSensorAddress    = 0x02;
 //
 
-String Temperature, Humidity, BarometricPressure, Luminosity, WindDirection, WindSpeed, Gust, RainLastHr, RainLast24Hr;
+String Temperature, Humidity, BarometricPressure, Luminosity, WindAngle, WindDirection, WindSpeedMs, WindSpeedKmH, WindSpeedMpH, Gust, RainLastHr, RainLast24Hr;
 String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
-
-//
-String anguloViento = "0";
-String velocidadViento = "0";
-//
 
 void setup() {
     Serial.begin(115200);

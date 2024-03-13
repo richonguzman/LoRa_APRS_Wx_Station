@@ -26,18 +26,13 @@ String datoGPSLat = "3301.95S";     // reemplazar!
 String datoGPSLon = "07134.25W";    // reemplazar!
 //
 
-//
-extern String anguloViento;
-extern String velocidadViento;
-//
-
-
 extern String Temperature;
 extern String Humidity;
 extern String BarometricPressure;
 extern String Luminosity;
+extern String WindAngle;
 extern String WindDirection;
-extern String WindSpeed;
+extern String WindSpeedMpH;
 extern String Gust;
 extern String RainLastHr;
 extern String RainLast24Hr;
@@ -52,9 +47,9 @@ namespace WX_Utils {
         BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
         WIND_RS485_Utils::readSensor();
 
-        String wxPacket = WindDirection + "/" + WindSpeed + "g" + Gust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
+        String wxPacket = WindAngle + "/" + WindSpeedMpH + "g" + Gust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         
-        return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment + " Viento:" + anguloViento; //velocidadViento;// 
+        return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment;
     }
 
     void loop() {

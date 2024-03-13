@@ -5,8 +5,11 @@
 
 extern HardwareSerial rs485Serial;
 
+extern String WindAngle;
 extern String WindDirection;
-extern String WindSpeed;
+extern String WindSpeedMs;
+extern String WindSpeedKmH;
+extern String WindSpeedMpH;
 extern String Gust;
 extern String fifthLine;
 
@@ -22,17 +25,6 @@ namespace WIND_RS485_Utils {
     void setup() {
         rs485Serial.begin(4800,SERIAL_8N1,RS485_RXD,RS485_TXD); // default speed in bauds
         Serial.println("init : RS485  Module  ...     done!");
-    }
-
-    void readSensor_WindSpeed() {
-        WindSpeed            = "002";    // mph
-
-    }
-
-    void readSensor_WindDirection() {
-        // aqui comenzamos a calcular
-    
-        WindDirection        = "123";    // degrees
     }
 
     size_t readN(uint8_t *buf, size_t len) {
@@ -162,23 +154,70 @@ namespace WIND_RS485_Utils {
         return windDirection;
     }
 
+    void generateWindSpeedString() {
+        float speed = readWindSpeed(0x01);
+        WindSpeedMs = String(speed,1);                    // meter/seg
+        WindSpeedKmH = String((int)(speed * 3.6));      // Kilometer/Hour
+        WindSpeedMpH = String((int)(speed * 2.23694));  // Miles/Hour
+        switch (WindSpeedMpH.length()) {
+            case 1:
+                WindSpeedMpH = "00" + WindSpeedMpH;
+                break;
+            case 2:
+                WindSpeedMpH = "0" + WindSpeedMpH;
+                break;            
+            default:
+                break;
+        }
+    }
+
+    void generateWindDirectionString() {
+        int direction = readWindDirection(0x02);
+        switch (direction) {
+            case 0:
+                WindAngle = "000";
+                WindDirection = "N";
+                break;
+            case 1:
+                WindAngle = "045";
+                WindDirection = "NE";
+                break;
+            case 2:
+                WindAngle = "090";
+                WindDirection = "E";
+                break;
+            case 3:
+                WindAngle = "135";
+                WindDirection = "SE";
+                break;
+            case 4:
+                WindAngle = "180";
+                WindDirection = "S";
+                break;
+            case 5:
+                WindAngle = "225";
+                WindDirection = "SW";
+                break;
+            case 6:
+                WindAngle = "270";
+                WindDirection = "W";
+                break;
+            case 7:
+                WindAngle = "315";
+                WindDirection = "NW";
+                break;
+        }
+    }
+
     void readSensor() {
-        //
+        generateWindDirectionString();
+        delay(200);
+        generateWindSpeedString();
 
-        //velocidadViento     = String(readWindSpeed(0x01));              // En m/seg
-        anguloViento        = String(readWindDirection(0x02));        // (0-7 con separaciones de 45°)
-        
-        //
-
-        // VER QUE MIERDA CON LA DIRECCION DE LOS SENSORES PARA CAMBIARLOS
-
-        readSensor_WindDirection();
-        readSensor_WindSpeed();
         //  calcular wind gust!
         Gust                 = "003";    // peak wind speed in last 5 min.
-        //fifthLine = "Wind: " + WindSpeed + "(" + Gust + ")m/s " + WindDirection;
-        fifthLine = "Wind: " + WindSpeed + "(" + Gust + ")m/s " + "N/E";
-    }
+        fifthLine = "Wind: " + WindSpeedMs + "(" + Gust + ")m/s " + WindDirection;
+    }    
 
     boolean modifyAddress(uint8_t Address1, uint8_t Address2) {
         Serial.println("iniciando cambio addrress");
@@ -239,7 +278,5 @@ namespace WIND_RS485_Utils {
         }
         for (;;); // loop forever
     }
-
-
 
 }

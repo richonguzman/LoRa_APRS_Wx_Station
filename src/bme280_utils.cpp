@@ -119,9 +119,9 @@ namespace BME280_Utils {
             Humidity            = generateHumString(newHum);
             BarometricPressure  = generatePresString(newPress + (heightCorrection/heightCorrectionFactor));
         }
-        secondLine  = "Temp       : " + Temperature + " F";
-        thirdLine   = "Humidity   : " + Humidity + " %";
-        fourthLine  = "Pressure   : " + BarometricPressure.substring(0,BarometricPressure.length()-1) + " hPA";
+        secondLine  = "Temp     : " + Temperature + " F";
+        thirdLine   = "Humidity : " + Humidity + " %";
+        fourthLine  = "Pressure : " + BarometricPressure.substring(0,BarometricPressure.length()-1) + " hPA";
     }
 
 }
