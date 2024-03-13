@@ -53,7 +53,11 @@ void loop() {
 
 
 // TODO******************
+
+// medir viento REAL
+
 // enviar Luminosity con L y l
-// medir viento 
-// grabar 2 addrress
+
 // medir lluvia.
+
+// mejorar Display

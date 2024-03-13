@@ -77,11 +77,9 @@ namespace WX_Utils {
     }
 
     void setupSensors() {
-        //Wire.begin();       //Wire.begin(OLED_SDA, OLED_SCL);
         Serial.println("\nSensors INI...");
         BME280_Utils::setup();
         BH1750_Utils::setup();
-
         WIND_RS485_Utils::setup();
 
         RAIN_Utils::setup();
