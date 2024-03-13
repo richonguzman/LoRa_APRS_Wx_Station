@@ -1,5 +1,6 @@
 #include "pins_config.h"
 #include "wind_rs485_utils.h"
+#include "display.h"
 
 
 extern HardwareSerial rs485Serial;
@@ -9,6 +10,8 @@ extern String WindSpeed;
 extern String Gust;
 extern String fifthLine;
 
+extern uint8_t OldSensorAddress;
+extern uint8_t NewSensorAddress;
 //
 extern String anguloViento;
 extern String velocidadViento;
@@ -84,28 +87,28 @@ namespace WIND_RS485_Utils {
         return crc;
     }
 
-    float readWindSpeed(uint8_t Address) {
+    float readWindSpeed(uint8_t address) {
         uint8_t Data[7] = {0}; //Store the original data packet returned by the sensor
         uint8_t COM[8] = {0x00, 0x03, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00}; //Command for reading wind speed, adjust for your sensor
         boolean ret = false; //Wind speed acquisition success flag
-        float WindSpeed = 0;
+        float windSpeed = 0;
         long curr = millis();
         long curr1 = curr;
         uint8_t ch = 0;
-        COM[0] = Address; //Add the complete command package with reference to the communication protocol.
+        COM[0] = address; //Add the complete command package with reference to the communication protocol.
         addCRC(COM , 6); //Add CRC_16 check for reading wind speed commandpacket
         rs485Serial.write(COM, 8); //Send the command of reading the wind speed
 
         while (!ret) {
             if (millis() - curr > 1000) {
-                WindSpeed = -1; //If the wind speed has not been read for more than 1000 milliseconds, it will be regarded as a timeout and return -1.
+                windSpeed = -1; //If the wind speed has not been read for more than 1000 milliseconds, it will be regarded as a timeout and return -1.
                 break;
             }
             if (millis() - curr1 > 100) {
                 rs485Serial.write(COM, 8); //If the last command to read the wind speed is sent for more than 100 milliseconds and the return command has not been received, the command to read the wind speed will be re-sent
                 curr1 = millis();
             }
-            if ((readN(&ch, 1) == 1) && (ch == Address)) { //Read and judge the packet header.
+            if ((readN(&ch, 1) == 1) && (ch == address)) { //Read and judge the packet header.
                 Data[0] = ch;
                 if ((readN(&ch, 1) == 1) && (ch == 0x03)) { //Read and judge the packet header.
                     Data[1] = ch;
@@ -113,36 +116,36 @@ namespace WIND_RS485_Utils {
                         Data[2] = ch;
                         if ((readN(&Data[3], 4) == 4) && (CRC16_2(Data, 5) == (Data[5] * 256 + Data[6]))) { // Check CRC data packet
                             ret = true;
-                            WindSpeed = (Data[3] * 256 + Data[4]) / 10.00; // Calculate the wind speed
+                            windSpeed = (Data[3] * 256 + Data[4]) / 10.00; // Calculate the wind speed
                         }
                     }
                 }
             }
         }
-        return WindSpeed;
+        return windSpeed;
     }
 
-    /*int readWindDirection(uint8_t Address) {
+    int readWindDirection(uint8_t address) {
         uint8_t Data[7] = {0}; //Store the original data packet returned by the sensor
         uint8_t COM[8] = {0x00, 0x03, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00}; // Command for reading wind direction, adjust to your sensor
         boolean ret = false; //Wind direction acquisition success flag
-        int WindDirection = 0;
+        int windDirection = 0;
         long curr = millis();
         long curr1 = curr;
         uint8_t ch = 0;
-        COM[0] = Address; //Add the complete command package with reference to the communication protocol.
+        COM[0] = address; //Add the complete command package with reference to the communication protocol.
         addCRC(COM , 6); //Add CRC_16 check for reading wind direction commandpacket
         rs485Serial.write(COM, 8); //Send the command of reading the wind direction
         while (!ret) {
             if (millis() - curr > 1000) {
-                WindDirection = -1; //If the wind direction has not been read for more than 1000 milliseconds, it will be regarded as a timeout and return -1.
+                windDirection = -1; //If the wind direction has not been read for more than 1000 milliseconds, it will be regarded as a timeout and return -1.
                 break;
             }
             if (millis() - curr1 > 100) {
                 rs485Serial.write(COM, 8); //If the last command to read the wind directionissent for more than 100 milliseconds and the return command has not beenreceived, the command to read the wind direction will be re-sent
                 curr1 = millis();
             }
-            if ((readN(&ch, 1) == 1) && (ch == Address)) { //Read and judge the packet header.
+            if ((readN(&ch, 1) == 1) && (ch == address)) { //Read and judge the packet header.
                 Data[0] = ch;
                 if ((readN(&ch, 1) == 1) && (ch == 0x03)) { //Read and judge the packet header.
                     Data[1] = ch;
@@ -150,19 +153,21 @@ namespace WIND_RS485_Utils {
                         Data[2] = ch;
                         if ((readN(&Data[3], 4) == 4) && (CRC16_2(Data, 5) == (Data[5] * 256 + Data[6]))) { //Checkdata packet
                             ret = true;
-                            WindDirection = Data[3] * 256 + Data[4]; //Calculatethewind direction
+                            windDirection = Data[3] * 256 + Data[4]; //Calculatethewind direction
                         }
                     }
                 }
             }
         }
-        return WindDirection;
-    }*/
+        return windDirection;
+    }
 
     void readSensor() {
         //
-        //anguloViento        = String(readWindDirection(0x01));        // (0-7 con separaciones de 45°)
-        velocidadViento     = String(readWindSpeed(0x01));              // En m/seg
+
+        //velocidadViento     = String(readWindSpeed(0x01));              // En m/seg
+        anguloViento        = String(readWindDirection(0x02));        // (0-7 con separaciones de 45°)
+        
         //
 
         // VER QUE MIERDA CON LA DIRECCION DE LOS SENSORES PARA CAMBIARLOS
@@ -174,5 +179,67 @@ namespace WIND_RS485_Utils {
         //fifthLine = "Wind: " + WindSpeed + "(" + Gust + ")m/s " + WindDirection;
         fifthLine = "Wind: " + WindSpeed + "(" + Gust + ")m/s " + "N/E";
     }
+
+    boolean modifyAddress(uint8_t Address1, uint8_t Address2) {
+        Serial.println("iniciando cambio addrress");
+        uint8_t ModifyAddressCOM[8] = {0x00, 0x06, 0x07, 0xD0, 0x00, 0x00, 0x00, 0x00};
+        boolean ret = false;
+        long curr = millis();
+        long curr1 = curr;
+        uint8_t ch = 0;
+        ModifyAddressCOM[0] = Address1;
+        ModifyAddressCOM[5] = Address2;
+        addCRC(ModifyAddressCOM , 6);
+        /*Serial.println(ModifyAddressCOM[0]);
+        Serial.println(ModifyAddressCOM[5]);
+        Serial.println(ModifyAddressCOM[6]);
+        Serial.println(ModifyAddressCOM[7]);*/
+        
+        rs485Serial.write(ModifyAddressCOM, 8); // sends the register modification request        
+        if (Address1 != 0x00) {     // if original address != 0x00, check echoed command is ok = command adressed to 0x00 are not echoed
+            while (!ret) {
+                if (millis() - curr > 1000) {
+                    break;
+                }
+                if (millis() - curr1 > 100) {
+                    rs485Serial.write(ModifyAddressCOM, 8);
+                    curr1 = millis();
+                }
+                if ((readN(&ch, 1) == 1) && (ch == Address1)) {
+                    if ((readN(&ch, 1) == 1) && (ch == 0x06)) {
+                        if ((readN(&ch, 1) == 1) && (ch == 0x07)) {
+                            if ((readN(&ch, 1) == 1) && (ch == 0xD0)) {
+                                if ((readN(&ch, 1) == 1) && (ch == 0x00)) {
+                                    if ((readN(&ch, 1) == 1) && (ch == Address2)) {
+                                        ret = true ;
+                                    } else {
+                                        ret = false;
+                                    }
+                                }    
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            ret = true; // return true if Address1 is 0x00
+        } 
+        return ret;
+    }
+
+    void changeSensorAddress() {
+        digitalWrite(LedPin, HIGH);
+        if (!modifyAddress(OldSensorAddress,NewSensorAddress)) {
+            Serial.println("RS485  No communication with sensor");
+            show_display("__RS485__", "", "   NO Comunication", "   with Sensor...", "", "", "", 0);
+        } else {
+            Serial.println("RS485  Address change OK");
+            Serial.println("RS485  Release switch and repower the sensor !");
+            show_display("__RS485__","Address changed","","to 0x" + String(NewSensorAddress,HEX));
+        }
+        for (;;); // loop forever
+    }
+
+
 
 }

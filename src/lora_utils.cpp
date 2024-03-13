@@ -31,14 +31,14 @@ namespace LoRa_Utils {
     }
 
     void sendNewPacket(const String &newPacket) {
-        digitalWrite(internalLedPin, HIGH);
+        digitalWrite(LedPin, HIGH);
         LoRa.beginPacket();
         LoRa.write('<');
         LoRa.write(0xFF);
         LoRa.write(0x01);
         LoRa.write((const uint8_t *)newPacket.c_str(), newPacket.length());
         LoRa.endPacket();
-        digitalWrite(internalLedPin, LOW);
+        digitalWrite(LedPin, LOW);
     }
 
 }

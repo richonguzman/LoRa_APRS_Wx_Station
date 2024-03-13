@@ -54,7 +54,7 @@ namespace WX_Utils {
 
         String wxPacket = WindDirection + "/" + WindSpeed + "g" + Gust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         
-        return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment + " Viento:" + velocidadViento;// + anguloViento
+        return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment + " Viento:" + anguloViento; //velocidadViento;// 
     }
 
     void loop() {

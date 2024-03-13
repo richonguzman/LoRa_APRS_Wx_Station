@@ -10,6 +10,9 @@ namespace WIND_RS485_Utils {
     void readSensor_WindDirection();
     void readSensor();
 
+    boolean modifyAddress(uint8_t Address1, uint8_t Address2);
+    void changeSensorAddress();
+
 }
 
 #endif

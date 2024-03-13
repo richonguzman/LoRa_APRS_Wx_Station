@@ -9,7 +9,8 @@
 #define OLED_SCL            22
 #define OLED_RESET          -1
 
-#define internalLedPin      25 
+#define LedPin              25
+#define ChangeAddrPin       14
 
 
 // LoRA SX1278
