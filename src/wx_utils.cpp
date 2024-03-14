@@ -12,6 +12,22 @@
 extern uint32_t     lastBeaconTx;
 extern int          beaconInterval;
 extern bool         beaconUpdate;
+extern uint32_t     lastWindReading;
+extern int          windReadingInterval;
+
+extern String       Temperature;
+extern String       Humidity;
+extern String       BarometricPressure;
+extern String       Luminosity;
+extern String       WindAngle;
+extern String       WindDirection;
+extern String       WindSpeedMpH;
+extern String       WindGust;
+extern String       RainLastHr;
+extern String       RainLast24Hr;
+
+extern String       firstLine;
+
 
 //
 #define heightCorrection 0       // in meters
@@ -26,38 +42,33 @@ String datoGPSLat = "3301.95S";     // reemplazar!
 String datoGPSLon = "07134.25W";    // reemplazar!
 //
 
-extern String Temperature;
-extern String Humidity;
-extern String BarometricPressure;
-extern String Luminosity;
-extern String WindAngle;
-extern String WindDirection;
-extern String WindSpeedMpH;
-extern String Gust;
-extern String RainLastHr;
-extern String RainLast24Hr;
-
-extern String firstLine;
-
 
 namespace WX_Utils {
 
     String buildWxStationPacket() {
         BME280_Utils::readSensor();
         BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
-        WIND_RS485_Utils::readSensor();
+        WIND_RS485_Utils::generateData();
 
-        String wxPacket = WindAngle + "/" + WindSpeedMpH + "g" + Gust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
+        String wxPacket = WindAngle + "/" + WindSpeedMpH + "g" + WindGust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         
         return callsign + ">" + tocall + "," + path + ":=" + datoGPSLat + overlay + datoGPSLon + symbol + wxPacket + comment;
     }
 
     void loop() {
         RAIN_Utils::loop();
+
+        uint32_t lastWind = millis() - lastWindReading;
+        if (lastWind >= windReadingInterval*60*1000) {
+        //if (lastWind >= windReadingInterval*3*1000) {
+            WIND_RS485_Utils::readSensor();
+            lastWindReading = millis();
+        }
+
         uint32_t lastTx = millis() - lastBeaconTx;
         if (lastTx >= beaconInterval*60*1000) {         
         //if (lastTx >= beaconInterval*3*1000) {
-            beaconUpdate = true;    
+            beaconUpdate = true;
         }
         if (beaconUpdate) {            
             String wxPacket = buildWxStationPacket();

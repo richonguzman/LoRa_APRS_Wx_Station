@@ -26,7 +26,7 @@ namespace LoRa_Utils {
         LoRa.enableCrc();
         LoRa.setTxPower(power);
         Serial.println("LoRa  LoRa init done!");
-        String currentLoRainfo = "LoRa Freq: " + String(freq)  + " / SF:" + String(spreadingFactor) + " / CR: " + String(codingRate);
+        String currentLoRainfo = "LoRa Freq: " + String(freq)  + " / SF:" + String(spreadingFactor) + " / CR: " + String(codingRate) + "\n";
         Serial.print("LoRa  "); Serial.println(currentLoRainfo);   
     }
 
