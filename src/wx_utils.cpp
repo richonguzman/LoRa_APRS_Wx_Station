@@ -12,8 +12,9 @@
 extern uint32_t     lastBeaconTx;
 extern int          beaconInterval;
 extern bool         beaconUpdate;
-extern uint32_t     lastWindReading;
-extern int          windReadingInterval;
+
+extern uint32_t     lastSensorReading;
+extern int          sensorReadingInterval;
 
 extern String       Temperature;
 extern String       Humidity;
@@ -49,6 +50,7 @@ namespace WX_Utils {
         BME280_Utils::readSensor();
         BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
         WIND_RS485_Utils::generateData();
+        RAIN_Utils::generateData();
 
         String wxPacket = WindAngle + "/" + WindSpeedMpH + "g" + WindGust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         
@@ -58,11 +60,12 @@ namespace WX_Utils {
     void loop() {
         RAIN_Utils::loop();
 
-        uint32_t lastWind = millis() - lastWindReading;
-        if (lastWind >= windReadingInterval*60*1000) {
-        //if (lastWind >= windReadingInterval*3*1000) {
+        uint32_t lastWind = millis() - lastSensorReading;
+        if (lastWind >= sensorReadingInterval*60*1000) {
+        //if (lastWind >= sensorReadingInterval*3*1000) {
             WIND_RS485_Utils::readSensor();
-            lastWindReading = millis();
+            RAIN_Utils::processMinute();
+            lastSensorReading = millis();
         }
 
         uint32_t lastTx = millis() - lastBeaconTx;
@@ -86,10 +89,7 @@ namespace WX_Utils {
         Serial.println("\nSensors INI...");
         BME280_Utils::setup();
         BH1750_Utils::setup();
-        WIND_RS485_Utils::setup();
-
-        RAIN_Utils::setup();
-        
+        WIND_RS485_Utils::setup();        
         firstLine = callsign;
         Serial.println("\n");
     }

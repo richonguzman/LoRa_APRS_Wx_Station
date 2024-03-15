@@ -5,7 +5,8 @@
 
 namespace RAIN_Utils {
 
-    void setup();
+    void generateData();
+    void processMinute();
     void loop();
 
 }

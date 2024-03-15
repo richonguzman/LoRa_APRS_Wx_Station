@@ -49,12 +49,22 @@ namespace WIND_RS485_Utils {
 
     void generateWindGustString() {
         float temp = 0;
-        for (int i = 5; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             if (windSpeedArray[i] > temp) {
                 temp = windSpeedArray[i];
             }
         }
         WindGust = String((int)(temp * 2.23694));     // Miles/Hour
+        switch (WindGust.length()) {
+            case 1:
+                WindGust = "00" + WindGust;
+                break;
+            case 2:
+                WindGust = "0" + WindGust;
+                break;            
+            default:
+                break;
+        }
     }
 
     void generateWindDirectionString() { 

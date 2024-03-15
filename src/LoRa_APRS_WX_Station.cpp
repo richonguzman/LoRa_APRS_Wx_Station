@@ -9,10 +9,25 @@ HardwareSerial rs485Serial(1);
 
 uint32_t    lastBeaconTx            = 0;
 bool        beaconUpdate            = true;     // deberia ser false por que no hay promedio!
-int         beaconInterval          = 10;   //min
-uint32_t    lastWindReading         = 10000;
-int         windReadingInterval     = 1;    // min
+int         beaconInterval          = 10;       //min
 
+int         sensorReadingInterval   = 1;        // min
+uint32_t    lastSensorReading       = 10000;
+// Wind
+int         windArrayIndex          = 0; 
+float       windSpeedArray[10]      = {0.0};
+int         windDirectionArray[10]  = {0};
+// Rain
+float       rain60MinArray[60]      = {0.0};
+float       rain24HArray[24]        = {0.0};
+float       rainMinute              = 0;
+float       rainBucketMM            = 0.2794;   // mm watter or 0.3537
+int         rain60MinIndex          = -1;
+int         rain24HIndex            = 0;
+
+
+String Temperature, Humidity, BarometricPressure, Luminosity, WindAngle, WindDirection, WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, RainLastHr, RainLast24Hr;
+String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
 // desde Config
 String      callsign            = "CA2RXU-13";
@@ -26,12 +41,6 @@ uint8_t     OldSensorAddress    = 0x01;
 uint8_t     NewSensorAddress    = 0x02;
 //
 
-float       windSpeedArray[10];
-int         windDirectionArray[10];
-int         windArrayIndex      = 0; 
-
-String Temperature, Humidity, BarometricPressure, Luminosity, WindAngle, WindDirection, WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, RainLastHr, RainLast24Hr;
-String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
 void setup() {
     Serial.begin(115200);
@@ -53,11 +62,7 @@ void loop() {
     show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
 
-
 // TODO******************
-
 // enviar Luminosity con L y l
-
 // medir lluvia.
-
 // mejorar Display
