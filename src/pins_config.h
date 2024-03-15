@@ -25,25 +25,30 @@
 #define RS485_RXD           34  // UART1 RXD pin
 #define RS485_TXD           4   // UART1 TXD pin
 
+// RAIN
+#define rainSwitchPin       15
+
 #endif
 
 // ***** Connections ******
 /*  BH1750 / GY-302     ESP32/LoRa32 v1.6/v2.1
+
     VCC                 3.3V
     GND                 GND
     SDA                 io_21
     SCL                 io_22
     ADDR                ---
+
 */
 
 /*  BME280 uses the same I2C pinouts as BH1750 */
 
 /*  RS485 to TTLWind Direction Sensor
 
-    ESP32       RS485/TTL   |   RS485/TTL   RS485-WindDirectionSensor
-    3.3V        VCC         |   GND         Black     
+    ESP32       RS485/TTL   |   RS485/TTL   RS485-Wind/DirectionSensor
+    3.3V        VCC         |   ---         Brown (to 10-30 VDC external supply) 
     34          RXD         |   A+          Yellow
     4           TXD         |   B-          Blue
-    GND         GND         |               Brown (to 10-30 VDC)
+    GND         GND         |   GND         Black
 
 */

@@ -7,12 +7,15 @@ extern String   sixthLine;
 
 extern float    rain60MinArray[];
 extern float    rain24HArray[];
-extern float    rainMinute;
+extern int      rainTippingCounter;
 extern float    rainBucketMM;
 extern int      rain60MinIndex;
 extern int      rain24HIndex;
+extern int      rainSwitchState;
+extern int      rainLastSwitchState;
+extern uint32_t lastDebounceTime;
 
-
+int     debounceDelay   = 50;
 
 
 namespace RAIN_Utils { 
@@ -60,45 +63,36 @@ namespace RAIN_Utils {
     void generateData() {
         RainLastHr = generateRain1HString();
         RainLast24Hr = generateRain24HString();
-    }
-
-    void processHour() {
-        float rain1H = 0.0;
-        for (int i = 0; i < 60; i++) {
-            rain1H += rain60MinArray[i];
-        }
-        rain24HArray[rain24HIndex] = rain1H;
-        rain24HIndex = (rain24HIndex + 1) % 24;
+        sixthLine = "R1h: " + RainLastHr + " / R24hr: " + RainLast24Hr;
     }
 
     void processMinute() {
         if (rain60MinIndex > -1) {
-            rain60MinArray[rain60MinIndex] = rainMinute;
+            rain60MinArray[rain60MinIndex] = rainTippingCounter * rainBucketMM;
+            rain24HArray[rain24HIndex] += rainTippingCounter * rainBucketMM;
         }
         if (rain60MinIndex == 59) {
-            processHour();            
+            rain24HIndex = (rain24HIndex + 1) % 24;
+            rain24HArray[rain24HIndex] = 0.0;
         }
         rain60MinIndex = (rain60MinIndex + 1) % 60;
-        rainMinute = 0;
+        rainTippingCounter = 0;
     }
 
-
     void loop() {
-        bool switchLluvia = true;
-        if (switchLluvia) {                 // si se activa el sensor de lluvia // revisar DEBOUNCE???
-            rainMinute += rainBucketMM;
+        int rainSwitchReading = digitalRead(rainSwitchPin);
+        if (rainSwitchReading != rainLastSwitchState) {         // Check if the button state has changed
+            lastDebounceTime = millis();                        // Reset the debounce timer
         }
-
-        /*if ((bucketPositionA==false)&&(digitalRead(RainPin)==HIGH)){
-            bucketPositionA=true;
-            dailyRain+=bucketAmount;                               // update the daily rain
+        if ((millis() - lastDebounceTime) > debounceDelay) {    // Check if the debounce delay has elapsed
+            if (rainSwitchReading != rainSwitchState) {         // Update the button state only if the button state has been stable for the debounce delay
+                rainSwitchState = rainSwitchReading;
+                if (rainSwitchState == LOW) { 
+                    rainTippingCounter++;
+                }
+            }
         }
-        if ((bucketPositionA==true)&&(digitalRead(RainPin)==LOW)){
-            bucketPositionA=false;  
-        }*/
-
-
-        sixthLine = "R1h: " + RainLastHr + " / R24hr: " + RainLast24Hr;
+        rainLastSwitchState = rainSwitchReading;                // Save the current button state for comparison in the next iteration
     }
 
 }

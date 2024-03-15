@@ -20,10 +20,13 @@ int         windDirectionArray[10]  = {0};
 // Rain
 float       rain60MinArray[60]      = {0.0};
 float       rain24HArray[24]        = {0.0};
-float       rainMinute              = 0;
+int         rainTippingCounter      = 0;
 float       rainBucketMM            = 0.2794;   // mm watter or 0.3537
 int         rain60MinIndex          = -1;
 int         rain24HIndex            = 0;
+int         rainSwitchState         = HIGH;
+int         rainLastSwitchState     = HIGH;
+uint32_t    lastDebounceTime        = 0;
 
 
 String Temperature, Humidity, BarometricPressure, Luminosity, WindAngle, WindDirection, WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, RainLastHr, RainLast24Hr;
@@ -48,6 +51,7 @@ void setup() {
     setup_display();
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
     pinMode(LedPin, OUTPUT);
+    pinMode(rainSwitchPin,INPUT_PULLUP);
     WX_Utils::setupSensors();
     pinMode(ChangeAddrPin, INPUT_PULLDOWN);
     if (digitalRead(ChangeAddrPin) == HIGH) {
@@ -64,5 +68,4 @@ void loop() {
 
 // TODO******************
 // enviar Luminosity con L y l
-// medir lluvia.
 // mejorar Display
