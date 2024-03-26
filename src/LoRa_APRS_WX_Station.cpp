@@ -54,7 +54,7 @@ void setup() {
     pinMode(rainSwitchPin,INPUT_PULLUP);
     WX_Utils::setupSensors();
     pinMode(ChangeAddrPin, INPUT_PULLDOWN);
-    if (digitalRead(ChangeAddrPin) == HIGH) {
+    if (digitalRead(ChangeAddrPin) == LOW) {
         Serial.println("RS485  Sensor address change procedure.");
         WIND_RS485_Utils::changeSensorAddress();
     }
