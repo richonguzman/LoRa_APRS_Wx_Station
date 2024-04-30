@@ -52,8 +52,8 @@ void setup() {
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
     pinMode(LedPin, OUTPUT);
     pinMode(rainSwitchPin,INPUT_PULLUP);
-    WX_Utils::setupSensors();
-    pinMode(ChangeAddrPin, INPUT_PULLDOWN);
+    //WX_Utils::setupSensors();  // esto deberia ir en linea 61 ?
+    pinMode(ChangeAddrPin, INPUT);
     if (digitalRead(ChangeAddrPin) == LOW) {
         Serial.println("RS485  Sensor address change procedure.");
         WIND_RS485_Utils::changeSensorAddress();
