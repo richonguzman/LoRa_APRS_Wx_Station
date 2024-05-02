@@ -47,10 +47,10 @@ String datoGPSLon = "07134.25W";    // reemplazar!
 namespace WX_Utils {
 
     String buildWxStationPacket() {
-        BME280_Utils::readSensor();
-        BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
+        //BME280_Utils::readSensor();
+        //BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
         WIND_RS485_Utils::generateData();
-        RAIN_Utils::generateData();
+        //RAIN_Utils::generateData();
 
         String wxPacket = WindAngle + "/" + WindSpeedMpH + "g" + WindGust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         
