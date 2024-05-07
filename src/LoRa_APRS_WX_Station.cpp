@@ -43,16 +43,7 @@ String      comment             = "Experimental LoRa Wx Station";
 uint8_t     OldSensorAddress    = 0x01;
 uint8_t     NewSensorAddress    = 0x02;
 //
-
-
-void setup() {
-    Serial.begin(115200);
-    delay(4000);
-    setup_display();
-    show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
-    pinMode(LedPin, OUTPUT);
-    pinMode(rainSwitchPin,INPUT_PULLUP);
-
+void checkWindDireccionSensorAddress() {
     pinMode(AddrInfoPin, INPUT);
     if (digitalRead(AddrInfoPin) == LOW) {
         delay(3000);
@@ -62,13 +53,28 @@ void setup() {
             delay(4000);
         }
     }
+}
 
+void changeWindDireccionSensorAddress() {
     pinMode(ChangeAddrPin, INPUT);
     if (digitalRead(ChangeAddrPin) == LOW) {   
         delay(3000);     
         Serial.println("RS485  Sensor address change procedure.");
         WIND_RS485_Utils::changeSensorAddress();
     }
+}
+
+void setup() {
+    Serial.begin(115200);
+    delay(4000);
+    setup_display();
+    show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
+    pinMode(LedPin, OUTPUT);
+    pinMode(rainSwitchPin,INPUT_PULLUP);
+
+    checkWindDireccionSensorAddress();
+    changeWindDireccionSensorAddress();
+        
     //WX_Utils::setupSensors();  // esto deberia ir en linea 61 ?
     //LoRa_Utils::setup();    
 }
