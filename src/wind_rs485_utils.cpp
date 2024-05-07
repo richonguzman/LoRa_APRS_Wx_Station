@@ -255,9 +255,28 @@ namespace WIND_RS485_Utils {
     }
 
     void checkSensorAddress() {
-        Serial.print("Sensor 0x01 --> "); Serial.println(readWindDirection(0x01));
+        Serial.print("Sensor 0x00 --> "); 
+        if ((readWindDirection(0x00)/45) == -1) {
+            Serial.println("not detected)");
+        } else {
+            Serial.println("detected)");
+        }
         delay(500);
-        Serial.print("Sensor 0x02 --> "); Serial.println(readWindDirection(0x02));
+
+        Serial.print("Sensor 0x01 --> "); 
+        if ((readWindDirection(0x01)/45) == -1) {
+            Serial.println("not detected)");
+        } else {
+            Serial.println("detected)");
+        }
+        delay(500);
+
+        Serial.print("Sensor 0x02 --> "); 
+        if ((readWindDirection(0x02)/45) == -1) {
+            Serial.println("not detected)");
+        } else {
+            Serial.println("detected)");
+        }    
     }
 
     boolean modifyAddress(uint8_t Address1, uint8_t Address2) {
