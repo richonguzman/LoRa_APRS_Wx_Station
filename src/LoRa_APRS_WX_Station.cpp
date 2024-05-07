@@ -44,23 +44,35 @@ uint8_t     OldSensorAddress    = 0x01;
 uint8_t     NewSensorAddress    = 0x02;
 //
 void checkWindDireccionSensorAddress() {
-    pinMode(AddrInfoPin, INPUT);
-    if (digitalRead(AddrInfoPin) == LOW) {
+    if (digitalRead(AddrInfoPin) == LOW && digitalRead(ChangeAddrPin) == HIGH) {
         delay(3000);
         Serial.println("Starting : RS485 Sensor Address Identifier...");
+        WIND_RS485_Utils::setup();
         while(1) {
             WIND_RS485_Utils::checkSensorAddress();
             delay(4000);
         }
+    } else {
+        Serial.println("Pin14 is LOW, turn it off or disconnect it for Check Addresses");
     }
 }
 
 void changeWindDireccionSensorAddress() {
-    pinMode(ChangeAddrPin, INPUT);
-    if (digitalRead(ChangeAddrPin) == LOW) {   
+    if (digitalRead(ChangeAddrPin) == LOW && digitalRead(AddrInfoPin) == HIGH) {
         delay(3000);     
         Serial.println("RS485  Sensor address change procedure.");
+        WIND_RS485_Utils::setup();
         WIND_RS485_Utils::changeSensorAddress();
+    } else {
+        Serial.println("Pin13 is LOW, turn it off or disconnect it for Changing Address");
+    }
+}
+
+bool checkModdifierPins() {
+    if (digitalRead(ChangeAddrPin) == HIGH && digitalRead(AddrInfoPin) == HIGH) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -71,17 +83,21 @@ void setup() {
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
     pinMode(LedPin, OUTPUT);
     pinMode(rainSwitchPin,INPUT_PULLUP);
-
+    pinMode(ChangeAddrPin, INPUT);
+    pinMode(AddrInfoPin, INPUT);
     checkWindDireccionSensorAddress();
     changeWindDireccionSensorAddress();
-        
-    //WX_Utils::setupSensors();  // esto deberia ir en linea 61 ?
-    //LoRa_Utils::setup();    
+    if (checkModdifierPins()) {
+        WX_Utils::setupSensors();  // esto deberia ir en linea 61 ?
+        LoRa_Utils::setup();
+    }
 }
 
 void loop() {
-    //WX_Utils::loop();
-    //show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
+    if (checkModdifierPins()) {
+        WX_Utils::loop();
+        show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
+    }
 }
 
 // TODO******************

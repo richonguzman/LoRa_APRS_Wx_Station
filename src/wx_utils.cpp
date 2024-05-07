@@ -69,7 +69,7 @@ namespace WX_Utils {
         }
 
         uint32_t lastTx = millis() - lastBeaconTx;
-        if (lastTx >= beaconInterval*60*1000) {         
+        if (lastTx >= beaconInterval*60*1000) {
         //if (lastTx >= beaconInterval*3*1000) {
             beaconUpdate = true;
         }
@@ -89,7 +89,7 @@ namespace WX_Utils {
         Serial.println("\nSensors INI...");
         BME280_Utils::setup();
         BH1750_Utils::setup();
-        WIND_RS485_Utils::setup();        
+        WIND_RS485_Utils::setup();
         firstLine = callsign;
         Serial.println("\n");
     }
