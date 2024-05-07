@@ -252,7 +252,13 @@ namespace WIND_RS485_Utils {
         generateWindGustString();
         generateWindDirectionString();
         fifthLine = "Wind: " + WindSpeedMs + "(" + WindGust + ")m/s " + WindDirection;
-    }    
+    }
+
+    void checkSensorAddress() {
+        Serial.print("Sensor 0x01 --> "); Serial.println(readWindDirection(0x01));
+        delay(500);
+        Serial.print("Sensor 0x02 --> "); Serial.println(readWindDirection(0x02));
+    }
 
     boolean modifyAddress(uint8_t Address1, uint8_t Address2) {
         Serial.println("iniciando cambio addrress");

@@ -52,18 +52,20 @@ void setup() {
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
     pinMode(LedPin, OUTPUT);
     pinMode(rainSwitchPin,INPUT_PULLUP);
-    //WX_Utils::setupSensors();  // esto deberia ir en linea 61 ?
     pinMode(ChangeAddrPin, INPUT);
-    if (digitalRead(ChangeAddrPin) == LOW) {
+    /*if (digitalRead(ChangeAddrPin) == LOW) {        
         Serial.println("RS485  Sensor address change procedure.");
         WIND_RS485_Utils::changeSensorAddress();
-    }
-    LoRa_Utils::setup();    
+    }*/
+    //WX_Utils::setupSensors();  // esto deberia ir en linea 61 ?
+    //LoRa_Utils::setup();    
 }
 
 void loop() { 
-    WX_Utils::loop();
-    show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
+    WIND_RS485_Utils::checkSensorAddress();
+    delay(4000);
+    //WX_Utils::loop();
+    //show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
 
 // TODO******************

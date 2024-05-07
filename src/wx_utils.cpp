@@ -93,5 +93,5 @@ namespace WX_Utils {
         firstLine = callsign;
         Serial.println("\n");
     }
-
+    
 }
