@@ -29,6 +29,9 @@ extern String       RainLast24Hr;
 
 extern String       firstLine;
 
+extern bool         bmeSensorFound;
+extern bool         bhSensorFound;
+
 
 //
 #define heightCorrection 0       // in meters
@@ -47,10 +50,21 @@ String datoGPSLon = "07134.25W";    // reemplazar!
 namespace WX_Utils {
 
     String buildWxStationPacket() {
-        //BME280_Utils::readSensor();
-        //BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
+        if (bmeSensorFound) {
+            BME280_Utils::readSensor();
+        } else {
+            Temperature         = "...";
+            Humidity            = "..";
+            BarometricPressure  = ".....";
+        }
+        if (bhSensorFound) {
+            BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
+        } else {
+             Luminosity         = "...";
+        }
+        
         WIND_RS485_Utils::generateData();
-        //RAIN_Utils::generateData();
+        RAIN_Utils::generateData();
 
         String wxPacket = WindAngle + "/" + WindSpeedMpH + "g" + WindGust + "t" + Temperature + "r" + RainLastHr + "p" + RainLast24Hr + "L" + Luminosity +"h" + Humidity + "b" + BarometricPressure;
         

@@ -1,11 +1,14 @@
 #include "pins_config.h"
 #include <bh1750_utils.h>
-#include <BH1750.h> 
+#include <BH1750.h>
+#include "display.h"
 
 #define luminousEfficacy (112.0)  // Luminous efficacy for sunlight in lumens per watt
 
 extern String Luminosity;
 extern String seventhLine;
+
+bool bhSensorFound     = false;
 
 namespace BH1750_Utils {
 
@@ -16,9 +19,10 @@ namespace BH1750_Utils {
         status = lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE, 0x23, &Wire);
         if (!status) {
             Serial.println("Could not find a valid BH1750 sensor, check wiring!");
-            while (1);
+            show_display("ERROR", "", "BH1750 sensor active", "but no sensor found...", "", 2000);
         } else {
             Serial.println("init : BH1750 Module  ...     done!");
+            bhSensorFound = true;
         }
     }
 

@@ -2,6 +2,7 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <bme280_utils.h>
+#include "display.h"
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 #define heightCorrectionFactor (8.2296)      // for meters
@@ -17,6 +18,8 @@ extern String secondLine;
 extern String thirdLine;
 extern String fourthLine;
 
+bool bmeSensorFound     = false;
+
 
 namespace BME280_Utils {
 
@@ -26,8 +29,8 @@ namespace BME280_Utils {
         bool status;
         status = bme.begin(0x76);
         if (!status) {
+            show_display("ERROR", "", "BME280 sensor active", "but no sensor found...", "", 2000);
             Serial.println("Could not find a valid BME280 , check wiring!");
-            while (1);
         } else {
             bme.setSampling(Adafruit_BME280::MODE_FORCED,
                             Adafruit_BME280::SAMPLING_X1,
@@ -36,6 +39,7 @@ namespace BME280_Utils {
                             Adafruit_BME280::FILTER_OFF
                             );
             Serial.println("init : BME280 Module  ...     done!");
+            bmeSensorFound = true;
         }
     }
 
