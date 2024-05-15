@@ -83,8 +83,8 @@ void setup() {
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
     pinMode(LedPin, OUTPUT);
     pinMode(rainSwitchPin,INPUT_PULLUP);
-    pinMode(ChangeAddrPin, INPUT);
     pinMode(AddrInfoPin, INPUT);
+    pinMode(ChangeAddrPin, INPUT);
     checkWindDireccionSensorAddress();
     changeWindDireccionSensorAddress();
     if (checkModdifierPins()) {

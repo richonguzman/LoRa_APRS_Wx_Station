@@ -13,7 +13,6 @@
 #define AddrInfoPin         13
 #define ChangeAddrPin       14
 
-
 // LoRA SX1278
 #define LORA_SCK            5
 #define LORA_MISO           19
@@ -28,6 +27,13 @@
 
 // RAIN
 #define rainSwitchPin       15
+
+/*#define pin0 0                      // ******************** free to use!
+#define pin2 2    // buzzer VCC // TF Card MISO   // ******************** free to use!
+#define pin12 12  // GPS RX
+#define pin14 14  // TF Card SCK    -------> Led/Candle Light   (free to use)
+#define pin36 36  //                    ****** Input Only
+#define pin39 39  //*/
 
 #endif
 

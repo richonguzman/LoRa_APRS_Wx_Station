@@ -11,6 +11,14 @@
 #define heightCorrection 0       // in meters
 //
 
+/*
+
+AGREGAR CORRECCIONES DE ALTURA Y TEMPERATURA!!!!
+
+AGREGAR BUSCADOR DE I2C 
+
+*/
+
 extern String Temperature;
 extern String Humidity;
 extern String BarometricPressure;
