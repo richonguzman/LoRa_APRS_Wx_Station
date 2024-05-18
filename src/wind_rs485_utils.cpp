@@ -1,4 +1,4 @@
-#include "pins_config.h"
+#include "boards_pinout.h"
 #include "wind_rs485_utils.h"
 #include "display.h"
 

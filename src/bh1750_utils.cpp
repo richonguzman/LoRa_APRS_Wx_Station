@@ -1,4 +1,4 @@
-#include "pins_config.h"
+#include "boards_pinout.h"
 #include <bh1750_utils.h>
 #include <BH1750.h>
 #include "display.h"

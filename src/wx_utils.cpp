@@ -1,5 +1,5 @@
 #include "wx_utils.h"
-#include "pins_config.h"
+#include "boards_pinout.h"
 #include "lora_utils.h"
 
 #include <Wire.h>

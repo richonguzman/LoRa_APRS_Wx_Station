@@ -1,6 +1,6 @@
 #include <LoRa.h>
 #include <SPI.h>
-#include "pins_config.h"
+#include "boards_pinout.h"
 
 long freq = 433775000;
 int signalBandwith = 125000;

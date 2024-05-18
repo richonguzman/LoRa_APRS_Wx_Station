@@ -1,4 +1,4 @@
-#include "pins_config.h"
+#include "boards_pinout.h"
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <bme280_utils.h>

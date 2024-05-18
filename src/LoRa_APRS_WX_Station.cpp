@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "lora_utils.h"
-#include "pins_config.h"
+#include "boards_pinout.h"
 #include "wx_utils.h"
 #include "display.h"
 #include "wind_rs485_utils.h"
@@ -44,7 +44,7 @@ uint8_t     OldSensorAddress    = 0x01;
 uint8_t     NewSensorAddress    = 0x02;
 //
 void checkWindDireccionSensorAddress() {
-    if (digitalRead(AddrInfoPin) == LOW && digitalRead(ChangeAddrPin) == HIGH) {
+    if (digitalRead(InfoAddrPin) == LOW && digitalRead(ChangeAddrPin) == HIGH) {
         delay(3000);
         Serial.println("Starting : RS485 Sensor Address Identifier...");
         WIND_RS485_Utils::setup();
@@ -58,7 +58,7 @@ void checkWindDireccionSensorAddress() {
 }
 
 void changeWindDireccionSensorAddress() {
-    if (digitalRead(ChangeAddrPin) == LOW && digitalRead(AddrInfoPin) == HIGH) {
+    if (digitalRead(InfoAddrPin) == HIGH && digitalRead(ChangeAddrPin) == LOW) {
         delay(3000);     
         Serial.println("RS485  Sensor address change procedure.");
         WIND_RS485_Utils::setup();
@@ -69,7 +69,7 @@ void changeWindDireccionSensorAddress() {
 }
 
 bool checkModdifierPins() {
-    if (digitalRead(ChangeAddrPin) == HIGH && digitalRead(AddrInfoPin) == HIGH) {
+    if (digitalRead(ChangeAddrPin) == HIGH && digitalRead(InfoAddrPin) == HIGH) {
         return true;
     } else {
         return false;
@@ -83,7 +83,7 @@ void setup() {
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", 4000);
     pinMode(LedPin, OUTPUT);
     pinMode(rainSwitchPin,INPUT_PULLUP);
-    pinMode(AddrInfoPin, INPUT);
+    pinMode(InfoAddrPin, INPUT);
     pinMode(ChangeAddrPin, INPUT);
     checkWindDireccionSensorAddress();
     changeWindDireccionSensorAddress();

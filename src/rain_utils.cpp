@@ -1,4 +1,4 @@
-#include "pins_config.h"
+#include "boards_pinout.h"
 #include <rain_utils.h>
 
 extern String   RainLastHr;
