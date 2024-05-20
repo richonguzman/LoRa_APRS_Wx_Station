@@ -2,13 +2,15 @@
 #include <bh1750_utils.h>
 #include <BH1750.h>
 #include "display.h"
+#include "utils.h"
 
 #define luminousEfficacy (112.0)  // Luminous efficacy for sunlight in lumens per watt
 
-extern String Luminosity;
-extern String seventhLine;
+extern  uint8_t             bh1750Addr;
+extern  String              seventhLine;
 
-bool bhSensorFound     = false;
+bool    bh1750SensorFound   = false;
+String  Luminosity          = "...";
 
 namespace BH1750_Utils {
 
@@ -16,13 +18,18 @@ namespace BH1750_Utils {
 
     void setup() {
         bool status;
-        status = lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE, 0x23, &Wire);
-        if (!status) {
-            Serial.println("Could not find a valid BH1750 sensor, check wiring!");
-            show_display("ERROR", "", "BH1750 sensor active", "but no sensor found...", "", 2000);
+        if (bh1750Addr != 0x00) {
+            status = lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE, bh1750Addr, &Wire);
+            if (!status) {
+                Serial.println("Could not initialize BH1750 sensor, check sensor!");
+                show_display("ERROR", "", "BH1750 found but ", "could not init ...", 2000);
+            } else {
+                Serial.println("init : BH1750 Module  ...     done!");
+                bh1750SensorFound = true;
+            }
         } else {
-            Serial.println("init : BH1750 Module  ...     done!");
-            bhSensorFound = true;
+            Serial.println("Could not find a BH1750 sensor, check wiring!");
+            show_display("ERROR", "", "BH1750 NOT FOUND !!!", "", 2000);
         }
     }
 
@@ -71,7 +78,7 @@ namespace BH1750_Utils {
             }
         }*/
         Luminosity = generateLumString(lux/luminousEfficacy);
-        seventhLine = "Luminosity : " + Luminosity + " W/m2";
+        seventhLine = "Luminosity : " + Luminosity + " W/m2";        
     }    
 
 }

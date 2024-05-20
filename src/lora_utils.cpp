@@ -2,11 +2,13 @@
 #include <SPI.h>
 #include "boards_pinout.h"
 
-long freq = 433775000;
-int signalBandwith = 125000;
-int spreadingFactor = 12;
-int codingRate = 5;
-int power = 20;
+/*********** TO BE ADDED FROM CONFIGURATION ***********/
+long    freq            = 433775000;
+int     signalBandwith  = 125000;
+int     spreadingFactor = 12;
+int     codingRate      = 5;
+int     power           = 20;
+/******************************************************/
 
 namespace LoRa_Utils {
 
@@ -30,7 +32,7 @@ namespace LoRa_Utils {
         Serial.print("LoRa  "); Serial.println(currentLoRainfo);   
     }
 
-    void sendNewPacket(const String &newPacket) {
+    void sendNewPacket(const String& newPacket) {
         digitalWrite(LedPin, HIGH);
         LoRa.beginPacket();
         LoRa.write('<');

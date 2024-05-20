@@ -1,22 +1,20 @@
 #include "boards_pinout.h"
 #include <rain_utils.h>
 
-extern String   RainLastHr;
-extern String   RainLast24Hr;
-extern String   sixthLine;
+extern String sixthLine;
 
-extern float    rain60MinArray[];
-extern float    rain24HArray[];
-extern int      rainTippingCounter;
-extern float    rainBucketMM;
-extern int      rain60MinIndex;
-extern int      rain24HIndex;
-extern int      rainSwitchState;
-extern int      rainLastSwitchState;
-extern uint32_t lastDebounceTime;
+float       rain60MinArray[60]      = {0.0};
+float       rain24HArray[24]        = {0.0};
+int         rainTippingCounter      = 0;
+float       rainBucketMM            = 0.2794;   // mm watter or 0.3537
+int         rain60MinIndex          = -1;
+int         rain24HIndex            = 0;
+int         rainSwitchState         = HIGH;
+int         rainLastSwitchState     = HIGH;
+uint32_t    lastDebounceTime        = 0;
+int         debounceDelay           = 50;
 
-int     debounceDelay   = 50;
-
+String      RainLastHr, RainLast24Hr;
 
 namespace RAIN_Utils { 
 
@@ -61,9 +59,9 @@ namespace RAIN_Utils {
     }
 
     void generateData() {
-        RainLastHr = generateRain1HString();
-        RainLast24Hr = generateRain24HString();
-        sixthLine = "R1h: " + RainLastHr + " / R24hr: " + RainLast24Hr;
+        RainLastHr      = generateRain1HString();
+        RainLast24Hr    = generateRain24HString();
+        sixthLine       = "R1h: " + RainLastHr + " / R24hr: " + RainLast24Hr;
     }
 
     void processMinute() {

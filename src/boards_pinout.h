@@ -5,35 +5,28 @@
 #undef OLED_SCL
 #undef OLED_RST
 
-#define OLED_SDA            21
-#define OLED_SCL            22
-#define OLED_RESET          -1
+#define OLED_SDA                21
+#define OLED_SCL                22
+#define OLED_RESET              -1
 
-#define LedPin              25
-#define InfoAddrPin         13
-#define ChangeAddrPin       14
+#define LedPin                  25
+#define windInfoAddrSwitchPin   13
+#define windChangeAddrSwitchPin 14
 
 // LoRA SX1278
-#define LORA_SCK            5
-#define LORA_MISO           19
-#define LORA_MOSI           27
-#define LORA_CS             18  // CS  --> NSS
-#define LORA_RST            23
-#define LORA_IRQ            26  // IRQ --> DIO0
+#define LORA_SCK                5
+#define LORA_MISO               19
+#define LORA_MOSI               27
+#define LORA_CS                 18
+#define LORA_RST                23
+#define LORA_IRQ                26
 
 // RS485 to TTL
-#define RS485_RXD           34  // UART1 RXD pin
-#define RS485_TXD           4   // UART1 TXD pin
+#define RS485_RXD               34  // UART1 RXD pin
+#define RS485_TXD               4   // UART1 TXD pin
 
 // RAIN
 #define rainSwitchPin       15
-
-/*#define pin0 0                      // ******************** free to use!
-#define pin2 2    // buzzer VCC // TF Card MISO   // ******************** free to use!
-#define pin12 12  // GPS RX
-#define pin14 14  // TF Card SCK    -------> Led/Candle Light   (free to use)
-#define pin36 36  //                    ****** Input Only
-#define pin39 39  //*/
 
 #endif
 

@@ -4,8 +4,8 @@
 #include "boards_pinout.h"
 #include "display.h"
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 
 void setup_display() {
     Wire.begin(OLED_SDA, OLED_SCL);
@@ -35,127 +35,43 @@ void display_toggle(bool toggle) {
     }
 }
 
-void show_display(String line1, int wait) {
+void show_display(const String& header, const String& line1, const String& line2, const String& line3, int wait) {
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(1);
     display.setCursor(0, 0);
-    display.println(line1);
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(1);
-    display.display();
-    delay(wait);
-}
-
-void show_display(String line1, String line2, int wait) {
-    display.clearDisplay();
-    display.setTextColor(WHITE);
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println(line1);
+    display.println(header);
     display.setCursor(0, 8);
-    display.println(line2);
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(1);
-    display.display();
-    delay(wait);
-}
-
-void show_display(String line1, String line2, String line3, int wait) {
-    display.clearDisplay();
-    display.setTextColor(WHITE);
-    display.setTextSize(1);
-    display.setCursor(0, 0);
     display.println(line1);
-    display.setCursor(0, 8);
-    display.println(line2);
     display.setCursor(0, 16);
-    display.println(line3);
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(1);
-    display.display();
-    delay(wait);
-}
-
-void show_display(String line1, String line2, String line3, String line4, int wait) {
-    display.clearDisplay();
-    display.setTextColor(WHITE);
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println(line1);
-    display.setCursor(0, 8);
     display.println(line2);
-    display.setCursor(0, 16);
-    display.println(line3);
     display.setCursor(0, 24);
-    display.println(line4);
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(1);
-    display.display();
-    delay(wait);
-}
-
-void show_display(String line1, String line2, String line3, String line4, String line5, int wait) {
-    display.clearDisplay();
-    display.setTextColor(WHITE);
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println(line1);
-    display.setCursor(0, 8);
-    display.println(line2);
-    display.setCursor(0, 16);
     display.println(line3);
-    display.setCursor(0, 24);
-    display.println(line4);
-    display.setCursor(0, 32);
-    display.println(line5);
     display.ssd1306_command(SSD1306_SETCONTRAST);
     display.ssd1306_command(1);
     display.display();
     delay(wait);
 }
 
-void show_display(String line1, String line2, String line3, String line4, String line5, String line6, int wait) {
-    display.clearDisplay();
-    display.setTextColor(WHITE);
-    display.setTextSize(1);
-    display.setCursor(0, 0);
-    display.println(line1);
-    display.setCursor(0, 8);
-    display.println(line2);
-    display.setCursor(0, 16);
-    display.println(line3);
-    display.setCursor(0, 24);
-    display.println(line4);
-    display.setCursor(0, 32);
-    display.println(line5);
-    display.setCursor(0, 40);
-    display.println(line6);
-    display.ssd1306_command(SSD1306_SETCONTRAST);
-    display.ssd1306_command(1);
-    display.display();
-    delay(wait);
-}
-
-void show_display(String line1, String line2, String line3, String line4, String line5, String line6, String line7, int wait) {
+void show_display(const String& header, const String& line1, const String& line2, const String& line3, const String& line4, const String& line5, const String& line6, int wait) {
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(2);
     display.setCursor(0, 0);
-    display.println(line1);
+    display.println(header);
     display.setTextSize(1);
     display.setCursor(0, 16);
-    display.println(line2);
+    display.println(line1);
     display.setCursor(0, 24);
-    display.println(line3);
+    display.println(line2);
     display.setCursor(0, 32);
-    display.println(line4);
+    display.println(line3);
     display.setCursor(0, 40);
-    display.println(line5);
+    display.println(line4);
     display.setCursor(0, 48);
-    display.println(line6);
+    display.println(line5);
     display.setCursor(0, 56);
-    display.println(line7);
+    display.println(line6);
     display.ssd1306_command(SSD1306_SETCONTRAST);
     display.ssd1306_command(1);
     display.display();

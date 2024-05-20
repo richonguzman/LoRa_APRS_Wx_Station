@@ -3,51 +3,53 @@
 #include <Adafruit_BME280.h>
 #include <bme280_utils.h>
 #include "display.h"
+#include "utils.h"
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 #define heightCorrectionFactor (8.2296)      // for meters
 
-//  CONFIGURATION
-#define heightCorrection 0       // in meters
-//
+/*********** TO BE ADDED FROM CONFIGURATION ***********/
+int         heightCorrection        = 0;
+float       temperatureCorrection   = 0.0;
+/******************************************************/
 
-/*
+extern String   secondLine;
+extern String   thirdLine;
+extern String   fourthLine;
 
-AGREGAR CORRECCIONES DE ALTURA Y TEMPERATURA!!!!
+extern uint8_t  bme280Addr;
 
-AGREGAR BUSCADOR DE I2C 
-
-*/
-
-extern String Temperature;
-extern String Humidity;
-extern String BarometricPressure;
-extern String secondLine;
-extern String thirdLine;
-extern String fourthLine;
-
-bool bmeSensorFound     = false;
+bool    bme280SensorFound   = false;
+String  Temperature         = "...";
+String  Humidity            = "..";
+String  BarometricPressure  = ".....";
 
 
 namespace BME280_Utils {
 
-    Adafruit_BME280 bme;
+    Adafruit_BME280 bme280;
 
     void setup() {
-        bool status;
-        status = bme.begin(0x76);
-        if (!status) {
-            show_display("ERROR", "", "BME280 sensor active", "but no sensor found...", "", 2000);
-            Serial.println("Could not find a valid BME280 , check wiring!");
+        if (bme280Addr != 0x00) {
+            bool status;
+            status = bme280.begin(bme280Addr);
+            if (!status) {
+                Serial.println("Could not initialize BME280 , check sensor!");
+                show_display("ERROR", "", "BME280 found but", "could not init ...", 2000);
+            } else {
+                Serial.println("init : BME280 Module  ...     done!");
+                bme280.setSampling(Adafruit_BME280::MODE_FORCED,
+                                Adafruit_BME280::SAMPLING_X1,
+                                Adafruit_BME280::SAMPLING_X1,
+                                Adafruit_BME280::SAMPLING_X1,
+                                Adafruit_BME280::FILTER_OFF
+                                );
+                Serial.println("init : BME280 Module  ...     done!");
+                bme280SensorFound = true;
+            }
         } else {
-            bme.setSampling(Adafruit_BME280::MODE_FORCED,
-                            Adafruit_BME280::SAMPLING_X1,
-                            Adafruit_BME280::SAMPLING_X1,
-                            Adafruit_BME280::SAMPLING_X1,
-                            Adafruit_BME280::FILTER_OFF
-                            );
-            Serial.println("init : BME280 Module  ...     done!");
-            bmeSensorFound = true;
+            Serial.println("Could not find a BME280 sensor, check wiring!");
+            show_display("ERROR", "", "BME280 NOT FOUND !!!", "", 2000);
         }
     }
 
@@ -92,8 +94,8 @@ namespace BME280_Utils {
     }
 
     String generatePresString(float bmePress) {
-        String strPress;
-        strPress = String((int)bmePress);
+        String strPress = String((int)bmePress);
+        String decPress = String(int((bmePress - int(bmePress)) * 10));
         switch (strPress.length()) {
             case 1:
                 return "000" + strPress + "0";
@@ -117,17 +119,17 @@ namespace BME280_Utils {
 
     void readSensor() {
         float newHum, newTemp, newPress;
-        bme.takeForcedMeasurement();
-        newTemp   = bme.readTemperature();
-        newPress  = (bme.readPressure() / 100.0F);
-        newHum = bme.readHumidity();
+        bme280.takeForcedMeasurement();
+        newTemp   = bme280.readTemperature();
+        newPress  = (bme280.readPressure() / 100.0F);
+        newHum = bme280.readHumidity();
         if (isnan(newTemp) || isnan(newHum) || isnan(newPress)) {
-            Serial.println("BME/BMP Module data failed");
+            Serial.println("BME280 Module data failed");
             Temperature         = "...";
             Humidity            = "..";
             BarometricPressure  = ".....";
         } else {
-            Temperature         = generateTempString((newTemp * 1.8) + 32);
+            Temperature         = generateTempString(((newTemp + temperatureCorrection) * 1.8) + 32);
             Humidity            = generateHumString(newHum);
             BarometricPressure  = generatePresString(newPress + (heightCorrection/heightCorrectionFactor));
         }

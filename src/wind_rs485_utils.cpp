@@ -3,22 +3,20 @@
 #include "display.h"
 
 
-extern HardwareSerial rs485Serial;
+extern  HardwareSerial          rs485Serial;
+extern  String                  fifthLine;
 
-extern String   WindAngle;
-extern String   WindDirection;
-extern String   WindSpeedMs;
-extern String   WindSpeedKmH;
-extern String   WindSpeedMpH;
-extern String   WindGust;
-extern String   fifthLine;
+int     windArrayIndex          = 0; 
+float   windSpeedArray[10]      = {0.0};
+int     windDirectionArray[10]  = {0};
 
+String  WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, WindAngle, WindDirection;
+
+/*********** TO BE ADDED FROM CONFIGURATION ***********/
 extern uint8_t  OldSensorAddress;
 extern uint8_t  NewSensorAddress;
+/******************************************************/
 
-extern float    windSpeedArray[];
-extern int      windDirectionArray[];
-extern int      windArrayIndex; 
 
 namespace WIND_RS485_Utils {
     
