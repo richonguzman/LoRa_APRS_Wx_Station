@@ -8,7 +8,7 @@ namespace Utils {
     void pinDeclarations();
     void checkWindDireccionSensorAddress();
     void changeWindDireccionSensorAddress();
-    bool checkSwitchesStates();
+    void checkSwitchesStates();
     void getI2CAddresses();
 
 }

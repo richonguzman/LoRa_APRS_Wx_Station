@@ -53,23 +53,18 @@ void setup() {
     setup_display();
     show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", " ", 4000);
 
-    Utils::pinDeclarations();    
-    //Utils::checkWindDireccionSensorAddress();
-    //Utils::changeWindDireccionSensorAddress();
+    Utils::pinDeclarations();
+    Utils::checkSwitchesStates();
 
-    //if (Utils::checkSwitchesStates()) {
     Utils::getI2CAddresses();
     WX_Utils::setupSensors();
     LoRa_Utils::setup();
     GPS_Utils::generateBeacon();
-    //}
 }
 
 void loop() {
-    //if (Utils::checkSwitchesStates()) {
-        WX_Utils::loop();
-        show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
-    //}
+    WX_Utils::loop();
+    show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
 
 // TODO******************

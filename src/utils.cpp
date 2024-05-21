@@ -13,40 +13,35 @@ namespace Utils {
     void pinDeclarations() {
         pinMode(LedPin, OUTPUT);
         pinMode(rainSwitchPin,INPUT_PULLUP);
-        pinMode(windInfoAddrSwitchPin, INPUT);
-        pinMode(windChangeAddrSwitchPin, INPUT);
+        pinMode(windInfoAddrSwitchPin, INPUT_PULLDOWN);
+        pinMode(windChangeAddrSwitchPin, INPUT_PULLDOWN);
+        delay(500);
     }
 
     void checkWindDireccionSensorAddress() {
-        if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
-            delay(3000);
-            Serial.println("Starting : RS485 Sensor Address Identifier...");
-            WIND_RS485_Utils::setup();
-            while(1) {
-                WIND_RS485_Utils::checkSensorAddress();
-                delay(4000);
-            }
-        } else {
-            Serial.println("Pin14 is LOW, turn it off or disconnect it for Check Addresses");
+        delay(3000);
+        Serial.println("Starting : RS485 Sensor Address Identifier...");
+        WIND_RS485_Utils::setup();
+        while(1) {
+            WIND_RS485_Utils::checkSensorAddress();
+            delay(4000);
         }
     }
 
     void changeWindDireccionSensorAddress() {
-        if (digitalRead(windInfoAddrSwitchPin) == HIGH && digitalRead(windChangeAddrSwitchPin) == LOW) {
+        if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
             delay(3000);     
             Serial.println("RS485  Sensor address change procedure.");
             WIND_RS485_Utils::setup();
             WIND_RS485_Utils::changeSensorAddress();
-        } else {
-            Serial.println("Pin13 is LOW, turn it off or disconnect it for Changing Address");
         }
     }
 
-    bool checkSwitchesStates() {
-        if (digitalRead(windInfoAddrSwitchPin) == HIGH && digitalRead(windChangeAddrSwitchPin) == HIGH) {
-            return true;
-        } else {
-            return false;
+    void checkSwitchesStates() {
+        if (digitalRead(windInfoAddrSwitchPin) == HIGH && digitalRead(windChangeAddrSwitchPin) == LOW) {
+            checkWindDireccionSensorAddress();
+        } else if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
+            changeWindDireccionSensorAddress();
         }
     }
 
