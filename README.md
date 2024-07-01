@@ -1,4 +1,4 @@
-# LoRa_APRS_Wx_Station
+# LoRa_APRS_Wx_Station.
 
 ### First:
 
