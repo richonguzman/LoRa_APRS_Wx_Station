@@ -12,10 +12,10 @@ int     windDirectionArray[10]  = {0};
 
 String  WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, WindAngle, WindDirection;
 
-/*********** TO BE ADDED FROM CONFIGURATION ***********/
-extern uint8_t  OldSensorAddress;
-extern uint8_t  NewSensorAddress;
-/******************************************************/
+/*****************************************/
+uint8_t     OldSensorAddress        = 0x01;
+uint8_t     NewSensorAddress        = 0x02;
+/*****************************************/
 
 
 namespace WIND_RS485_Utils {

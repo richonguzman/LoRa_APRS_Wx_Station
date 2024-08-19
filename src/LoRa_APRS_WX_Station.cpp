@@ -30,16 +30,12 @@ ________________________________________________________________________________
 #include "utils.h"
 
 
-String          versionDate             = "2024.08.16";
+String          versionDate             = "2024.08.19";
 Configuration   Config;
 HardwareSerial  rs485Serial(1);
 
 String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
-/*********** TO BE ADDED FROM CONFIGURATION ***********/
-uint8_t     OldSensorAddress        = 0x01;
-uint8_t     NewSensorAddress        = 0x02;
-/******************************************************/
 
 void setup() {
     Serial.begin(115200);
@@ -60,8 +56,3 @@ void loop() {
     WX_Utils::loop();
     displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
-
-// TODO:
-//
-// enviar Luminosity con L y l
-// mejorar Display
