@@ -2,15 +2,19 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <bme280_utils.h>
+#include "configuration.h"
 #include "display.h"
 #include "utils.h"
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 #define heightCorrectionFactor (8.2296)      // for meters
 
+
+extern Configuration    Config;
+
 /*********** TO BE ADDED FROM CONFIGURATION ***********/
-int         heightCorrection        = 0;
-float       temperatureCorrection   = 0.0;
+//int         heightCorrection        = 0;
+//float       temperatureCorrection   = 0.0;
 /******************************************************/
 
 extern String   secondLine;
@@ -129,9 +133,9 @@ namespace BME280_Utils {
             Humidity            = "..";
             BarometricPressure  = ".....";
         } else {
-            Temperature         = generateTempString(((newTemp + temperatureCorrection) * 1.8) + 32);
+            Temperature         = generateTempString(((newTemp + Config.sensor.bem280TemperatureCorrection) * 1.8) + 32);
             Humidity            = generateHumString(newHum);
-            BarometricPressure  = generatePresString(newPress + (heightCorrection/heightCorrectionFactor));
+            BarometricPressure  = generatePresString(newPress + (Config.sensor.bme280HeightCorrection/heightCorrectionFactor));
         }
         secondLine  = "Temp     : " + Temperature + " F";
         thirdLine   = "Humidity : " + Humidity + " %";

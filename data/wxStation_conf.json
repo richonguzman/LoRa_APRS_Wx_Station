@@ -1,0 +1,33 @@
+{
+    "callsign": "CA2RXU-13",
+    "beacon": {
+        "latitude": -33.0323050,
+        "longitude": -71.5717292,
+        "comment": "Experimental LoRa APRS Wx Station",
+        "interval": 10,
+        "overlay": "L",
+        "symbol": "_",
+        "path": "WIDE1-1"
+    },
+    "lora": {
+        "txFreq": 433775000,
+        "spreadingFactor": 12,
+        "signalBandwidth": 125000,
+        "codingRate4": 5,
+        "power": 20
+    },
+    "display": {
+        "alwaysOn": true,
+        "timeout": 4,
+        "turn180": false
+    },
+    "sensors": {
+        "rainActive": true,
+        "windDirectionActive": true,
+        "windSpeedActive": true,
+        "bh1750Active": true,
+        "bme280Active": true,
+        "bme280HeightCorrection": 0,
+        "bme280TemperatureCorrection": 0.0             
+	}
+}

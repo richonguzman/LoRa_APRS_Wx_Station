@@ -22,30 +22,23 @@ ________________________________________________________________________________
 #include <Arduino.h>
 #include "wind_rs485_utils.h"
 #include "boards_pinout.h"
+#include "configuration.h"
 #include "lora_utils.h"
 #include "gps_utils.h"
 #include "wx_utils.h"
 #include "display.h"
 #include "utils.h"
 
-HardwareSerial rs485Serial(1);
+
+String          versionDate             = "2024.08.16";
+Configuration   Config;
+HardwareSerial  rs485Serial(1);
 
 String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
-String      versionDate             = "2024.08.16";
 /*********** TO BE ADDED FROM CONFIGURATION ***********/
-String      callsign                = "CA2RXU-13";
-String      tocall                  = "APLRW1";
-String      path                    = "WIDE1-1";
-String      overlay                 = "L";
-String      symbol                  = "_";
-String      comment                 = "Experimental LoRa Wx Station";
-
 uint8_t     OldSensorAddress        = 0x01;
 uint8_t     NewSensorAddress        = 0x02;
-
-float       stationLatitude         = -33.0323050;
-float       stationLongitude        = -71.5717292;
 /******************************************************/
 
 void setup() {

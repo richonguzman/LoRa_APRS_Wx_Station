@@ -1,17 +1,11 @@
+#include "configuration.h"
 #include "gps_utils.h"
 
 
+extern Configuration Config;
+
 String beaconPacket;
 
-/*********** TO BE ADDED FROM CONFIGURATION ***********/
-extern String callsign;
-extern String tocall;
-extern String path;
-extern String overlay;
-extern String symbol;
-extern float stationLatitude;
-extern float stationLongitude;
-/******************************************************/
 
 namespace GPS_Utils {
 
@@ -53,15 +47,14 @@ namespace GPS_Utils {
     }
 
     void generateBeacon() {
-        beaconPacket = callsign;
-        beaconPacket += ">";
-        beaconPacket += tocall;
-        if (path != "") {
+        beaconPacket = Config.callsign;
+        beaconPacket += ">APLRW1";
+        if (Config.beacon.path != "") {
             beaconPacket += ",";
-            beaconPacket += path;
+            beaconPacket += Config.beacon.path;
         }
         beaconPacket += ":!";
-        beaconPacket += encodeGPS(stationLatitude, stationLongitude, overlay, symbol);
+        beaconPacket += encodeGPS(Config.beacon.latitude, Config.beacon.longitude, "L", "_");
     }
 
 }

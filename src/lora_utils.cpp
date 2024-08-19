@@ -1,45 +1,63 @@
-#include <LoRa.h>
+#include <RadioLib.h>
 #include <SPI.h>
+#include "configuration.h"
 #include "boards_pinout.h"
 
-/*********** TO BE ADDED FROM CONFIGURATION ***********/
-long    freq            = 433775000;
-int     signalBandwith  = 125000;
-int     spreadingFactor = 12;
-int     codingRate      = 5;
-int     power           = 20;
-/******************************************************/
+extern Configuration    Config;
+
+#ifdef HAS_SX1278
+    SX1278 radio = new Module(RADIO_CS_PIN, RADIO_BUSY_PIN, RADIO_RST_PIN);
+#endif
+
+bool operationDone   = true;
+bool transmitFlag    = true;
 
 namespace LoRa_Utils {
 
+    void setFlag(void) {
+        operationDone = true;
+    }
+
     void setup() {        
         Serial.println("LoRa  Set SPI pins!");
-        SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_CS);
-        LoRa.setPins(LORA_CS, LORA_RST, LORA_IRQ);
-        if (!LoRa.begin(freq)) {
-            Serial.println("LoRa  Starting LoRa failed!");
-            while (true) {
-                delay(1000);
-            }
+        SPI.begin(RADIO_SCLK_PIN, RADIO_MISO_PIN, RADIO_MOSI_PIN);
+        float freq = (float)Config.loramodule.txFreq / 1000000;
+        int state = radio.begin(freq);
+        if (state == RADIOLIB_ERR_NONE) {
+            Serial.println("Initializing LoRa Module");
+        } else {
+            Serial.println("Starting LoRa failed! State: " + String(state));
+            while (true);
         }
-        LoRa.setSpreadingFactor(spreadingFactor);
-        LoRa.setSignalBandwidth(signalBandwith);
-        LoRa.setCodingRate4(codingRate);
-        LoRa.enableCrc();
-        LoRa.setTxPower(power);
-        Serial.println("LoRa  LoRa init done!");
-        String currentLoRainfo = "LoRa Freq: " + String(freq)  + " / SF:" + String(spreadingFactor) + " / CR: " + String(codingRate) + "\n";
-        Serial.print("LoRa  "); Serial.println(currentLoRainfo);   
+        #if defined(HAS_SX1278)
+            radio.setDio0Action(setFlag, RISING);
+        #endif
+        radio.setSpreadingFactor(Config.loramodule.spreadingFactor);
+        float signalBandwidth = Config.loramodule.signalBandwidth/1000;
+        radio.setBandwidth(signalBandwidth);
+        radio.setCodingRate(Config.loramodule.codingRate4);
+        radio.setCRC(true);
+        state = radio.setOutputPower(Config.loramodule.power);
+        radio.setCurrentLimit(100);
+        if (state == RADIOLIB_ERR_NONE) {
+            Serial.println("init : LoRa Module    ...     done!");
+        } else {
+            Serial.println("Starting LoRa failed! State: " + String(state));
+            while (true);
+        }
     }
 
     void sendNewPacket(const String& newPacket) {
         digitalWrite(LedPin, HIGH);
-        LoRa.beginPacket();
-        LoRa.write('<');
-        LoRa.write(0xFF);
-        LoRa.write(0x01);
-        LoRa.write((const uint8_t *)newPacket.c_str(), newPacket.length());
-        LoRa.endPacket();
+        int state = radio.transmit("\x3c\xff\x01" + newPacket);
+        transmitFlag = true;
+        if (state == RADIOLIB_ERR_NONE) {
+            Serial.print("---> LoRa Packet Tx    : ");
+            Serial.println(newPacket);
+        } else {
+            Serial.print(F("failed, code "));
+            Serial.println(String(state));
+        }
         digitalWrite(LedPin, LOW);
     }
 

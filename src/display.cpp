@@ -1,9 +1,11 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 #include <Wire.h>
+#include "configuration.h"
 #include "boards_pinout.h"
 #include "display.h"
 
+extern Configuration    Config;
 
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 
@@ -14,9 +16,9 @@ void displaySetup() {
         Serial.println(F("SSD1306 allocation failed"));
         for(;;); // Don't proceed, loop forever
     }
-    /*if (Config.display.turn180) {
+    if (Config.display.turn180) {
         display.setRotation(2);
-    }*/
+    }
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(1);

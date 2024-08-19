@@ -1,6 +1,7 @@
 #include <Wire.h>
 #include "wind_rs485_utils.h"
 #include "boards_pinout.h"
+#include "configuration.h"
 #include "bh1750_utils.h"
 #include "bme280_utils.h"
 #include "lora_utils.h"
@@ -9,37 +10,28 @@
 #include "wx_utils.h"
 
 
-extern String       Temperature;
-extern String       Humidity;
-extern String       BarometricPressure;
-extern String       Luminosity;
-extern String       WindAngle;
-extern String       WindDirection;
-extern String       WindSpeedMpH;
-extern String       WindGust;
-extern String       RainLastHr;
-extern String       RainLast24Hr;
-extern String       firstLine;
-extern bool         bme280SensorFound;
-extern bool         bh1750SensorFound;
-extern String       beaconPacket;
-extern String       versionDate;
+extern Configuration    Config;
+extern String           Temperature;
+extern String           Humidity;
+extern String           BarometricPressure;
+extern String           Luminosity;
+extern String           WindAngle;
+extern String           WindDirection;
+extern String           WindSpeedMpH;
+extern String           WindGust;
+extern String           RainLastHr;
+extern String           RainLast24Hr;
+extern String           firstLine;
+extern bool             bme280SensorFound;
+extern bool             bh1750SensorFound;
+extern String           beaconPacket;
+extern String           versionDate;
 
 int         sensorReadingInterval   = 1;        // min
 uint32_t    lastSensorReading       = 10000;
 uint32_t    lastBeaconTx            = 0;
 bool        beaconUpdate            = true;     // deberia ser false por que no hay promedio!
-int         beaconInterval          = 10;       //min
 bool        statusAfterBoot         = true;
-
-/*********** TO BE ADDED FROM CONFIGURATION ***********/
-extern String       callsign;
-extern String       tocall;     // fijo?
-extern String       path;
-extern String       overlay;    // fijo?
-extern String       symbol;     // fijo?
-extern String       comment;
-/******************************************************/
 
 
 namespace WX_Utils {
@@ -82,16 +74,16 @@ namespace WX_Utils {
         wxPacket += "b";
         wxPacket += BarometricPressure;
         
-        return beaconPacket + wxPacket + comment;
+        return beaconPacket + wxPacket + Config.beacon.comment;
     }
 
     void processStatus() {
         delay(4000);
-        String status = callsign;
+        String status = Config.callsign;
         status += ">APLRW1";
-        if (path != "") {
+        if (Config.beacon.path != "") {
             status += ",";
-            status += path;
+            status += Config.beacon.path;
         }
         status += ":>https://github.com/richonguzman/LoRa_APRS_Wx_Station ";
         status += versionDate;
@@ -109,7 +101,7 @@ namespace WX_Utils {
         }
 
         uint32_t lastTx = millis() - lastBeaconTx;
-        if (lastTx >= beaconInterval * 60 * 1000) {
+        if (lastTx >= Config.beacon.interval * 60 * 1000) {
             beaconUpdate = true;
         }
         if (beaconUpdate) {            
@@ -129,7 +121,7 @@ namespace WX_Utils {
         BME280_Utils::setup();
         BH1750_Utils::setup();
         WIND_RS485_Utils::setup();
-        firstLine = callsign;
+        firstLine = Config.callsign;
         Serial.println("\n");
     }
     
