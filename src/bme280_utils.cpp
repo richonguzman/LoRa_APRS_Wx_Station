@@ -140,9 +140,9 @@ namespace BME280_Utils {
         secondLine  += Temperature;
         secondLine  += " F";
 
-        thirdLine   = "Humidity   : ";
+        thirdLine   = "Humidity   :  ";
         thirdLine   += Humidity;
-        thirdLine   + " %";
+        thirdLine   += " %";
 
         fourthLine  = "Pressure   : ";
         fourthLine  += BarometricPressure.substring(0,BarometricPressure.length() - 1);

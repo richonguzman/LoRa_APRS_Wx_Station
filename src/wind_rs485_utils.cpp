@@ -9,13 +9,10 @@ extern  String                  fifthLine;
 int     windArrayIndex          = 0; 
 float   windSpeedArray[10]      = {0.0};
 int     windDirectionArray[10]  = {0};
+uint8_t OldSensorAddress        = 0x01;
+uint8_t NewSensorAddress        = 0x02;
 
 String  WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, WindAngle, WindDirection;
-
-/*****************************************/
-uint8_t     OldSensorAddress        = 0x01;
-uint8_t     NewSensorAddress        = 0x02;
-/*****************************************/
 
 
 namespace WIND_RS485_Utils {
@@ -65,7 +62,7 @@ namespace WIND_RS485_Utils {
         }
     }
 
-    void generateWindDirectionString() { 
+    void generateWindDirectionString() {
         double sumSin = 0.0;
         double sumCos = 0.0;
 
@@ -92,7 +89,8 @@ namespace WIND_RS485_Utils {
                 WindAngle = directionString;
                 break;
         }
-        if (meanDeg >= 338 && meanDeg < 23) {
+
+        if ((meanDeg >= 338 && meanDeg <= 360) || (meanDeg >= 0 && meanDeg < 23)) {
             WindDirection = "N";
         } else if (meanDeg >= 23 && meanDeg < 68) {
             WindDirection = "NE";
