@@ -35,7 +35,7 @@ namespace BME280_Utils {
             status = bme280.begin(bme280Addr);
             if (!status) {
                 Serial.println("Could not initialize BME280 , check sensor!");
-                show_display("ERROR", "", "BME280 found but", "could not init ...", 2000);
+                displayShow("ERROR", "", "BME280 found but", "could not init ...", 2000);
             } else {
                 Serial.println("init : BME280 Module  ...     done!");
                 bme280.setSampling(Adafruit_BME280::MODE_FORCED,
@@ -49,7 +49,7 @@ namespace BME280_Utils {
             }
         } else {
             Serial.println("Could not find a BME280 sensor, check wiring!");
-            show_display("ERROR", "", "BME280 NOT FOUND !!!", "", 2000);
+            displayShow("ERROR", "", "BME280 NOT FOUND !!!", "", 2000);
         }
     }
 

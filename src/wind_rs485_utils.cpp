@@ -328,11 +328,11 @@ namespace WIND_RS485_Utils {
         digitalWrite(LedPin, HIGH);
         if (!modifyAddress(OldSensorAddress,NewSensorAddress)) {
             Serial.println("RS485  No communication with sensor");
-            show_display("__RS485__", "", "   NO Comunication", "   with Sensor...", "", "", "", 0);
+            displayShow("__RS485__", "", "   NO Comunication", "   with Sensor...", "", "", "", 0);
         } else {
             Serial.println("RS485  Address change OK");
             Serial.println("RS485  Release switch and repower the sensor !");
-            show_display("__RS485__","Address changed","","to 0x" + String(NewSensorAddress,HEX));
+            displayShow("__RS485__","Address changed","","to 0x" + String(NewSensorAddress,HEX));
         }
         for (;;);
     }

@@ -50,8 +50,8 @@ float       stationLongitude        = -71.5717292;
 void setup() {
     Serial.begin(115200);
     delay(4000);
-    setup_display();
-    show_display(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", " ", 4000);
+    displaySetup();
+    displayShow(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", " ", 4000);
 
     Utils::pinDeclarations();
     Utils::checkSwitchesStates();
@@ -64,7 +64,7 @@ void setup() {
 
 void loop() {
     WX_Utils::loop();
-    show_display(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
+    displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
 
 // TODO******************

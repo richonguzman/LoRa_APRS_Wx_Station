@@ -22,14 +22,14 @@ namespace BH1750_Utils {
             status = lightMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE, bh1750Addr, &Wire);
             if (!status) {
                 Serial.println("Could not initialize BH1750 sensor, check sensor!");
-                show_display("ERROR", "", "BH1750 found but ", "could not init ...", 2000);
+                displayShow("ERROR", "", "BH1750 found but ", "could not init ...", 2000);
             } else {
                 Serial.println("init : BH1750 Module  ...     done!");
                 bh1750SensorFound = true;
             }
         } else {
             Serial.println("Could not find a BH1750 sensor, check wiring!");
-            show_display("ERROR", "", "BH1750 NOT FOUND !!!", "", 2000);
+            displayShow("ERROR", "", "BH1750 NOT FOUND !!!", "", 2000);
         }
     }
 

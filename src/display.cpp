@@ -7,7 +7,7 @@
 
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 
-void setup_display() {
+void displaySetup() {
     Wire.begin(OLED_SDA, OLED_SCL);
 
     if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
@@ -27,7 +27,7 @@ void setup_display() {
     delay(1000);
 }
 
-void display_toggle(bool toggle) {
+void displayToggle(bool toggle) {
     if (toggle) {
         display.ssd1306_command(SSD1306_DISPLAYON);
     } else {
@@ -35,7 +35,7 @@ void display_toggle(bool toggle) {
     }
 }
 
-void show_display(const String& header, const String& line1, const String& line2, const String& line3, int wait) {
+void displayShow(const String& header, const String& line1, const String& line2, const String& line3, int wait) {
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(1);
@@ -53,7 +53,7 @@ void show_display(const String& header, const String& line1, const String& line2
     delay(wait);
 }
 
-void show_display(const String& header, const String& line1, const String& line2, const String& line3, const String& line4, const String& line5, const String& line6, int wait) {
+void displayShow(const String& header, const String& line1, const String& line2, const String& line3, const String& line4, const String& line5, const String& line6, int wait) {
     display.clearDisplay();
     display.setTextColor(WHITE);
     display.setTextSize(2);
