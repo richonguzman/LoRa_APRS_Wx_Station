@@ -249,7 +249,12 @@ namespace WIND_RS485_Utils {
         generateWindSpeedString();
         generateWindGustString();
         generateWindDirectionString();
-        fifthLine = "Wind: " + WindSpeedMs + "(" + WindGust + ")m/s " + WindDirection;
+        fifthLine   = "Wind: ";
+        fifthLine   += WindSpeedMs;
+        fifthLine   += "(";
+        fifthLine   += WindGust;
+        fifthLine   += ")m/s ";
+        fifthLine   += WindDirection;
     }
 
     void checkSensorAddress() {

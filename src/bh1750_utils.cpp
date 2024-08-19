@@ -78,7 +78,9 @@ namespace BH1750_Utils {
             }
         }*/
         Luminosity = generateLumString(lux/luminousEfficacy);
-        seventhLine = "Luminosity : " + Luminosity + " W/m2";        
+        seventhLine = "Luminosity : ";
+        seventhLine += Luminosity;
+        seventhLine += " W/m2";
     }    
 
 }

@@ -61,7 +61,10 @@ namespace RAIN_Utils {
     void generateData() {
         RainLastHr      = generateRain1HString();
         RainLast24Hr    = generateRain24HString();
-        sixthLine       = "R1h: " + RainLastHr + " / R24hr: " + RainLast24Hr;
+        sixthLine       = "R1h: ";
+        sixthLine       += RainLastHr;
+        sixthLine       += " / R24hr: ";
+        sixthLine       += RainLast24Hr;
     }
 
     void processMinute() {

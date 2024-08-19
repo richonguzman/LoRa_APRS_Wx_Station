@@ -87,6 +87,7 @@ namespace WX_Utils {
         }
         status += ":>https://github.com/richonguzman/LoRa_APRS_Wx_Station ";
         status += versionDate;
+        LoRa_Utils::sendNewPacket(status);
         statusAfterBoot = false;
     }
     
@@ -106,8 +107,8 @@ namespace WX_Utils {
         }
         if (beaconUpdate) {            
             String wxPacket = buildDataPacket();
+            Serial.println("Sending LoRa APRS Packet ---> " + wxPacket);
             LoRa_Utils::sendNewPacket(wxPacket);
-            Serial.println("Enviando packet ---> " + wxPacket);
             lastBeaconTx = millis();
             beaconUpdate = false;
         }
@@ -117,12 +118,11 @@ namespace WX_Utils {
     }
 
     void setupSensors() {
-        Serial.println("\nSensors INI...");
+        Serial.println("Sensors INI...");
         BME280_Utils::setup();
         BH1750_Utils::setup();
         WIND_RS485_Utils::setup();
         firstLine = Config.callsign;
-        Serial.println("\n");
     }
     
 }

@@ -42,6 +42,7 @@ void setup() {
     delay(4000);
     displaySetup();
     displayShow(" APRS LoRa", "", "      WX station", "", ""," ", "  CA2RXU  " + versionDate, 4000);
+    Serial.println("\nStarting Weather LoRa APRS Station\n");  
 
     Utils::pinDeclarations();
     Utils::checkSwitchesStates();

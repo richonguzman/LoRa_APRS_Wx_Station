@@ -41,7 +41,6 @@ namespace BME280_Utils {
                 Serial.println("Could not initialize BME280 , check sensor!");
                 displayShow("ERROR", "", "BME280 found but", "could not init ...", 2000);
             } else {
-                Serial.println("init : BME280 Module  ...     done!");
                 bme280.setSampling(Adafruit_BME280::MODE_FORCED,
                                 Adafruit_BME280::SAMPLING_X1,
                                 Adafruit_BME280::SAMPLING_X1,
@@ -137,9 +136,17 @@ namespace BME280_Utils {
             Humidity            = generateHumString(newHum);
             BarometricPressure  = generatePresString(newPress + (Config.sensor.bme280HeightCorrection/heightCorrectionFactor));
         }
-        secondLine  = "Temp     : " + Temperature + " F";
-        thirdLine   = "Humidity : " + Humidity + " %";
-        fourthLine  = "Pressure : " + BarometricPressure.substring(0,BarometricPressure.length()-1) + " hPA";
+        secondLine  = "Temp       : ";
+        secondLine  += Temperature;
+        secondLine  += " F";
+
+        thirdLine   = "Humidity   : ";
+        thirdLine   += Humidity;
+        thirdLine   + " %";
+
+        fourthLine  = "Pressure   : ";
+        fourthLine  += BarometricPressure.substring(0,BarometricPressure.length() - 1);
+        fourthLine  += " hPA";
     }
 
 }

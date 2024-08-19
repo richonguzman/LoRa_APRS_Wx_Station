@@ -19,12 +19,12 @@ namespace LoRa_Utils {
     }
 
     void setup() {        
-        Serial.println("LoRa  Set SPI pins!");
+        //Serial.println("LoRa  Set SPI pins!");
         SPI.begin(RADIO_SCLK_PIN, RADIO_MISO_PIN, RADIO_MOSI_PIN);
         float freq = (float)Config.loramodule.txFreq / 1000000;
         int state = radio.begin(freq);
         if (state == RADIOLIB_ERR_NONE) {
-            Serial.println("Initializing LoRa Module");
+            //Serial.println("Initializing LoRa Module");
         } else {
             Serial.println("Starting LoRa failed! State: " + String(state));
             while (true);
@@ -52,8 +52,8 @@ namespace LoRa_Utils {
         int state = radio.transmit("\x3c\xff\x01" + newPacket);
         transmitFlag = true;
         if (state == RADIOLIB_ERR_NONE) {
-            Serial.print("---> LoRa Packet Tx    : ");
-            Serial.println(newPacket);
+            //Serial.print("---> LoRa Packet Tx    : ");
+            //Serial.println(newPacket);
         } else {
             Serial.print(F("failed, code "));
             Serial.println(String(state));

@@ -14,7 +14,7 @@ void displaySetup() {
 
     if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
         Serial.println(F("SSD1306 allocation failed"));
-        for(;;); // Don't proceed, loop forever
+        for(;;);
     }
     if (Config.display.turn180) {
         display.setRotation(2);
@@ -43,12 +43,13 @@ void displayShow(const String& header, const String& line1, const String& line2,
     display.setTextSize(1);
     display.setCursor(0, 0);
     display.println(header);
-    display.setCursor(0, 8);
-    display.println(line1);
-    display.setCursor(0, 16);
-    display.println(line2);
-    display.setCursor(0, 24);
-    display.println(line3);
+
+    const String* const lines[] = {&line1, &line2, &line3};
+    for (int i = 0; i < 3; i++) {
+        display.setCursor(0, 8 + (8 * i));
+        display.println(*lines[i]);
+    }
+
     display.ssd1306_command(SSD1306_SETCONTRAST);
     display.ssd1306_command(1);
     display.display();
@@ -62,18 +63,12 @@ void displayShow(const String& header, const String& line1, const String& line2,
     display.setCursor(0, 0);
     display.println(header);
     display.setTextSize(1);
-    display.setCursor(0, 16);
-    display.println(line1);
-    display.setCursor(0, 24);
-    display.println(line2);
-    display.setCursor(0, 32);
-    display.println(line3);
-    display.setCursor(0, 40);
-    display.println(line4);
-    display.setCursor(0, 48);
-    display.println(line5);
-    display.setCursor(0, 56);
-    display.println(line6);
+
+    const String* const lines[] = {&line1, &line2, &line3, &line4, &line5, &line6};
+    for (int i = 0; i < 6; i++) {
+        display.setCursor(0, 16 + (8 * i));
+        display.println(*lines[i]);
+    }
     display.ssd1306_command(SSD1306_SETCONTRAST);
     display.ssd1306_command(1);
     display.display();
