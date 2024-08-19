@@ -32,6 +32,7 @@ HardwareSerial rs485Serial(1);
 
 String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
+String      versionDate             = "2024.08.16";
 /*********** TO BE ADDED FROM CONFIGURATION ***********/
 String      callsign                = "CA2RXU-13";
 String      tocall                  = "APLRW1";
@@ -51,7 +52,7 @@ void setup() {
     Serial.begin(115200);
     delay(4000);
     displaySetup();
-    displayShow(" APRS LoRa", "", "      WX station", "", "       CA2RXU"," ", " ", 4000);
+    displayShow(" APRS LoRa", "", "      WX station", "", ""," ", "  CA2RXU  " + versionDate, 4000);
 
     Utils::pinDeclarations();
     Utils::checkSwitchesStates();
@@ -67,6 +68,7 @@ void loop() {
     displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
 
-// TODO******************
+// TODO:
+//
 // enviar Luminosity con L y l
 // mejorar Display

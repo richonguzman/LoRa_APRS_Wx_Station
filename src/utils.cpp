@@ -2,6 +2,7 @@
 #include "wind_rs485_utils.h"
 #include "boards_pinout.h"
 #include "utils.h"
+#include "display.h"
 
 
 uint8_t bh1750Addr  = 0x00;
@@ -19,9 +20,10 @@ namespace Utils {
     }
 
     void checkWindDireccionSensorAddress() {
-        delay(3000);
-        Serial.println("Starting : RS485 Sensor Address Identifier...");
+        displayShow("SENSOR ID", "Starting :", "RS485 Wind Direction", "Sensor Address", "Identifier...", "check -->", "Serial output");
+        Serial.println("Starting : RS485 'Wind Direction' Sensor Address Identifier...");
         WIND_RS485_Utils::setup();
+        delay(1000);
         while(1) {
             WIND_RS485_Utils::checkSensorAddress();
             delay(4000);
@@ -29,12 +31,11 @@ namespace Utils {
     }
 
     void changeWindDireccionSensorAddress() {
-        if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
-            delay(3000);     
-            Serial.println("RS485  Sensor address change procedure.");
-            WIND_RS485_Utils::setup();
-            WIND_RS485_Utils::changeSensorAddress();
-        }
+        displayShow("SENSOR ID", "Starting :", "RS485 Wind Direction", "Sensor Address", "Change Procedure...", "check -->", "Serial output");   
+        Serial.println("RS485  Sensor address change procedure.");
+        WIND_RS485_Utils::setup();
+        delay(1000);
+        WIND_RS485_Utils::changeSensorAddress();
     }
 
     void checkSwitchesStates() {

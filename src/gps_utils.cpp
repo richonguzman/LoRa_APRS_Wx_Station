@@ -53,12 +53,15 @@ namespace GPS_Utils {
     }
 
     void generateBeacon() {
-        beaconPacket = callsign + ">" + tocall;
+        beaconPacket = callsign;
+        beaconPacket += ">";
+        beaconPacket += tocall;
         if (path != "") {
-            beaconPacket += "," + path;
+            beaconPacket += ",";
+            beaconPacket += path;
         }
-        String encodedGPS = encodeGPS(stationLatitude, stationLongitude, overlay, symbol);
-        beaconPacket += ",qAC:!" + encodeGPS(stationLatitude, stationLongitude, overlay, symbol);
+        beaconPacket += ":!";
+        beaconPacket += encodeGPS(stationLatitude, stationLongitude, overlay, symbol);
     }
 
 }

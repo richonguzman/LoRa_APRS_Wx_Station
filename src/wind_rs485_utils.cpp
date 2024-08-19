@@ -277,7 +277,7 @@ namespace WIND_RS485_Utils {
         }    
     }
 
-    boolean modifyAddress(uint8_t Address1, uint8_t Address2) {
+    boolean modifySensorAddress(uint8_t Address1, uint8_t Address2) {
         Serial.println("iniciando cambio addrress");
         uint8_t ModifyAddressCOM[8] = {0x00, 0x06, 0x07, 0xD0, 0x00, 0x00, 0x00, 0x00};
         boolean ret = false;
@@ -326,7 +326,7 @@ namespace WIND_RS485_Utils {
 
     void changeSensorAddress() {
         digitalWrite(LedPin, HIGH);
-        if (!modifyAddress(OldSensorAddress,NewSensorAddress)) {
+        if (!modifySensorAddress(OldSensorAddress,NewSensorAddress)) {
             Serial.println("RS485  No communication with sensor");
             displayShow("__RS485__", "", "   NO Comunication", "   with Sensor...", "", "", "", 0);
         } else {
