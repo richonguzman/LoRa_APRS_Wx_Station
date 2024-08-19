@@ -1,8 +1,8 @@
 {
-    "callsign": "CA2RXU-13",
+    "callsign": "NOCALL-13",
     "beacon": {
-        "latitude": -33.0323050,
-        "longitude": -71.5717292,
+        "latitude": 0.0,
+        "longitude": 0.0,
         "comment": "Experimental LoRa APRS Wx Station",
         "interval": 10,
         "overlay": "L",
