@@ -1,41 +1,37 @@
-# LoRa_APRS_Wx_Station...
-
-### First:
-
-a) Connect RS485/TLL board to TTGO_T_LoRa32 as per boards_pinout.h description.
-
-b) Connect RS485 Wind Direction Sensor to RS485/TTL board.
-
-c) Connect Pin13 to 3.3V pin.
-
-d) Power TTGO_T_LoRa32 with USB
-
-e) Power RS485 Wind Direction Sensor with 10-30V(DC) as per boards_pinout.h description
-
----> Serial Output will show the board looking for 0x00, 0x01, 0x02 Adresses for WindDirection Sensor. (It should be 0x01).
-
-f) Turn/Power it off.
+# CA2RXU LoRa_APRS_Wx_Station...
 
 
-### Second:
+This firmware is for using ESP32 based boards with LoRa Modules to send Wx Data into APRS by adding Temperature, Pressure, Humidity, Luminance, Rain, Wind Speed and Direction sensor.
 
-With the validation of Wind Direcction Sensor Adress (it should be 0x01 and we will change it to 0x02):
+____________________________________________________
 
-a) Disconnect Pin13 from 3.3V pin.
+## You can support this project to continue to grow:
 
-b) Connect Pin14 to 3.3V pin.
-
----> Oled screen will show the procedure and will show when sensor address is changed.
-
-c) Turn/Power it off.
+[<img src="https://github.com/richonguzman/LoRa_APRS_Tracker/blob/main/images/github-sponsors.png">](https://github.com/sponsors/richonguzman)     [<img src="https://github.com/richonguzman/LoRa_APRS_Tracker/blob/main/images/paypalme.png">](http://paypal.me/richonguzman)
 
 
-### Third:
+____________________________________________________
 
-a) Disconnect Pin13 and Pin14 from 3.3V pin.
+# WIKI
 
-b) Connect all the other sensors as its shown on boards_pinout.h
+### HOME --> <a href="https://github.com/richonguzman/LoRa_APRS_Wx_Station/wiki" target="_blank">here</a>
 
-c) Edit relevant data in LoRa_APRS_WX_Station.cpp (callsign and more)
+### 1. Recommended Sensors for each task and buying links --> <a href="https://github.com/richonguzman/LoRa_APRS_Wx_Station/wiki/1.-Recommended-Sensors-for-each-Task-(and-buying-links)." target="_blank">here</a>
 
-d) Power the TTGO_T_LoRa32 and enjoy!
+### 2. How to configure the LoRa APRS Wx Station --> <a href="https://github.com/richonguzman/LoRa_APRS_Wx_Station/wiki/2.-How-to-configure-the-Station." target="_blank">here</a>
+
+### 3. Instructions how to connect the sensors --> <a href="https://github.com/richonguzman/LoRa_APRS_Wx_Station/wiki/3.-Instructions-how-to-connect-the-sensors." target="_blank">here</a>
+
+
+____________________________________________________
+## Timeline (Versions):
+
+- 2024.08.19 Start as _Alpha_.
+
+____________________________________________________
+
+Some code from Patric TK5EP https://github.com/tk5ep/WX-station-LoRa-WiFi was used for controlling the RS485 sensors
+
+____________________________________________________
+
+# Hope You Enjoy this, 73 !!  CA2RXU , Valparaiso, Chile
