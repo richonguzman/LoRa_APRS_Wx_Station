@@ -30,7 +30,7 @@ ____________________________________________________
 
 ____________________________________________________
 
-Some code from Patric TK5EP https://github.com/tk5ep/WX-station-LoRa-WiFi was used for controlling the RS485 sensors
+Some code from _Patrick TK5EP_ with his great repository https://github.com/tk5ep/WX-station-LoRa-WiFi was used for controlling the RS485 sensors
 
 ____________________________________________________
 
