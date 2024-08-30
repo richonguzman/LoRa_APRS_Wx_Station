@@ -22,12 +22,12 @@
         "turn180": false
     },
     "sensors": {
-        "rainActive": true,
-        "windDirectionActive": true,
-        "windSpeedActive": true,
-        "bh1750Active": true,
         "bme280Active": true,
         "bme280HeightCorrection": 0,
-        "bme280TemperatureCorrection": 0.0             
+        "bme280TemperatureCorrection": 0.0,
+        "bh1750Active": true,
+        "windDirectionActive": true,
+        "windSpeedActive": true,
+        "rainActive": true                    
 	}
 }

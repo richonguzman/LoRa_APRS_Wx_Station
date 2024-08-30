@@ -38,13 +38,13 @@ namespace WX_Utils {
 
     String buildDataPacket() {
 
-        if (Config.sensor.bh1750Active && bh1750SensorFound) {
+        if (Config.sensors.bh1750Active && bh1750SensorFound) {
             BH1750_Utils::readSensor();           // "L" si es menor que 1000 W/m2 y "l" si es >= 1000 W/m2 y reemplaza algunos de los campos de lluvia.
         } else {
             Luminosity          = "...";
         }
 
-        if (Config.sensor.bme280Active && bme280SensorFound) {
+        if (Config.sensors.bme280Active && bme280SensorFound) {
             BME280_Utils::readSensor();
         } else {
             Temperature         = "...";
@@ -52,7 +52,7 @@ namespace WX_Utils {
             BarometricPressure  = ".....";
         }        
         
-        if (Config.sensor.windDirectionActive || Config.sensor.windSpeedActive) {
+        if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) {
             WIND_RS485_Utils::generateData();
         } else {
             WindAngle           = "...";
@@ -60,7 +60,7 @@ namespace WX_Utils {
             WindGust            = "...";
         }
 
-        if (Config.sensor.rainActive) {
+        if (Config.sensors.rainActive) {
             RAIN_Utils::generateData();
         } else {
             RainLastHr          = "...";
@@ -103,12 +103,12 @@ namespace WX_Utils {
     }
     
     void loop() {
-        if (Config.sensor.rainActive) RAIN_Utils::loop();
+        if (Config.sensors.rainActive) RAIN_Utils::loop();
 
         uint32_t lastWind = millis() - lastSensorReading;
         if (lastWind >= sensorReadingInterval * 60 * 1000) {
-            if (Config.sensor.windDirectionActive || Config.sensor.windSpeedActive) WIND_RS485_Utils::readSensor();
-            if (Config.sensor.rainActive) RAIN_Utils::processMinute();
+            if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) WIND_RS485_Utils::readSensor();
+            if (Config.sensors.rainActive) RAIN_Utils::processMinute();
             lastSensorReading = millis();
         }
 
@@ -130,9 +130,9 @@ namespace WX_Utils {
 
     void setupSensors() {
         Serial.println("Sensors INI...");
-        if (Config.sensor.bme280Active) BME280_Utils::setup();
-        if (Config.sensor.bh1750Active) BH1750_Utils::setup();
-        if (Config.sensor.windDirectionActive || Config.sensor.windSpeedActive) WIND_RS485_Utils::setup();
+        if (Config.sensors.bme280Active) BME280_Utils::setup();
+        if (Config.sensors.bh1750Active) BH1750_Utils::setup();
+        if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) WIND_RS485_Utils::setup();
         firstLine = Config.callsign;
     }
     

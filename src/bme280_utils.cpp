@@ -132,9 +132,9 @@ namespace BME280_Utils {
             Humidity            = "..";
             BarometricPressure  = ".....";
         } else {
-            Temperature         = generateTempString(((newTemp + Config.sensor.bem280TemperatureCorrection) * 1.8) + 32);
+            Temperature         = generateTempString(((newTemp + Config.sensors.bem280TemperatureCorrection) * 1.8) + 32);
             Humidity            = generateHumString(newHum);
-            BarometricPressure  = generatePresString(newPress + (Config.sensor.bme280HeightCorrection/heightCorrectionFactor));
+            BarometricPressure  = generatePresString(newPress + (Config.sensors.bme280HeightCorrection/heightCorrectionFactor));
         }
         secondLine  = "Temp       : ";
         secondLine  += Temperature;

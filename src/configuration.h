@@ -35,13 +35,13 @@ public:
 
 class SENSORS {
 public:
-    bool    rainActive;
-    bool    windDirectionActive;
-    bool    windSpeedActive;
-    bool    bh1750Active;
     bool    bme280Active;
     int     bme280HeightCorrection;
     float   bem280TemperatureCorrection;
+    bool    bh1750Active;
+    bool    windDirectionActive;
+    bool    windSpeedActive;
+    bool    rainActive;    
 };
 
 
@@ -51,7 +51,7 @@ public:
     BEACON                  beacon;
     LoraModule              loramodule;
     Display                 display;
-    SENSORS                 sensor;
+    SENSORS                 sensors;
   
     void init();
     void writeFile();

@@ -37,13 +37,14 @@ bool Configuration::readFile() {
         display.timeout                     = data["display"]["timeout"] | 4;
         display.turn180                     = data["display"]["turn180"] | false;
 
-        sensor.rainActive                   = data["sensor"]["bh1750Active"] | true;
-        sensor.windDirectionActive          = data["sensor"]["bh1750Active"] | true;
-        sensor.windSpeedActive              = data["sensor"]["bh1750Active"] | true;
-        sensor.bh1750Active                 = data["sensor"]["bh1750Active"] | true;
-        sensor.bme280Active                 = data["sensor"]["bh1750Active"] | true;
-        sensor.bme280HeightCorrection       = data["sensor"]["bh1750Active"] | 0;
-        sensor.bem280TemperatureCorrection  = data["sensor"]["bh1750Active"] | 0.0;
+        sensors.bme280Active                = data["sensors"]["bme280Active"] | true;
+        sensors.bme280HeightCorrection      = data["sensors"]["bme280HeightCorrection"] | 0;
+        sensors.bem280TemperatureCorrection = data["sensors"]["bme280TemperatureCorrection"] | 0.0;
+        sensors.bh1750Active                = data["sensors"]["bh1750Active"] | true;
+        sensors.windDirectionActive         = data["sensors"]["windDirectionActive"] | true;
+        sensors.windSpeedActive             = data["sensors"]["windSpeedActive"] | true;
+        sensors.rainActive                  = data["sensors"]["rainActive"] | true;       
+        
 
         configFile.close();
         Serial.println("Config read successfuly");
