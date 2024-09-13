@@ -44,6 +44,12 @@ public:
     bool    rainActive;    
 };
 
+class BATTERY {
+public:
+    bool    sendInternalVoltage;
+    bool    sendExternalVoltage;
+    bool    sendAsEncodedTelemetry;
+};
 
 class Configuration {
 public:
@@ -52,6 +58,7 @@ public:
     LoraModule              loramodule;
     Display                 display;
     SENSORS                 sensors;
+    BATTERY                 battery;
   
     void init();
     void writeFile();

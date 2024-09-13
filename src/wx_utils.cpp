@@ -67,25 +67,45 @@ namespace WX_Utils {
             RainLast24Hr        = "...";
         }
 
-        String wxPacket = WindAngle;
+        String wxPacket = beaconPacket;
+        
+        wxPacket += WindAngle;
         wxPacket += "/";
         wxPacket += WindSpeedMpH;
-        wxPacket += "g";
-        wxPacket += WindGust;
+        
+        if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) {    
+            wxPacket += "g";
+            wxPacket += WindGust;
+        }
+
         wxPacket += "t";
         wxPacket += Temperature;
-        wxPacket += "r";
-        wxPacket += RainLastHr;
-        wxPacket += "p";
-        wxPacket += RainLast24Hr;
-        wxPacket += "L";
-        wxPacket += Luminosity;
         wxPacket += "h";
         wxPacket += Humidity;
         wxPacket += "b";
         wxPacket += BarometricPressure;
+
+        if (Config.sensors.rainActive) {
+            wxPacket += "r";
+            wxPacket += RainLastHr;
+            wxPacket += "p";
+            wxPacket += RainLast24Hr;
+        }
+
+        if (Config.sensors.bh1750Active && bh1750SensorFound) {
+            wxPacket += "L";
+            wxPacket += Luminosity;
+        }
         
-        return beaconPacket + wxPacket + Config.beacon.comment;
+        if (Config.battery.sendInternalVoltage || Config.battery.sendExternalVoltage) {
+            if (Config.battery.sendAsEncodedTelemetry) {
+                return wxPacket + Config.beacon.comment + "TELEMETRY";
+            } else {
+                return wxPacket + Config.beacon.comment + "BAT + ExtV";
+            }
+        } else {
+            return wxPacket + Config.beacon.comment;
+        }        
     }
 
     void processStatus() {

@@ -43,7 +43,11 @@ bool Configuration::readFile() {
         sensors.bh1750Active                = data["sensors"]["bh1750Active"] | true;
         sensors.windDirectionActive         = data["sensors"]["windDirectionActive"] | true;
         sensors.windSpeedActive             = data["sensors"]["windSpeedActive"] | true;
-        sensors.rainActive                  = data["sensors"]["rainActive"] | true;       
+        sensors.rainActive                  = data["sensors"]["rainActive"] | true;
+
+        battery.sendInternalVoltage         = data["battery"]["sendInternalVoltage"] | false;
+        battery.sendExternalVoltage         = data["battery"]["sendExternalVoltage"] | false;
+        battery.sendAsEncodedTelemetry      = data["battery"]["sendAsEncodedTelemetry"] | false;
         
 
         configFile.close();
