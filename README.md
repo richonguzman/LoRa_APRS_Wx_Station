@@ -26,6 +26,7 @@ ____________________________________________________
 ____________________________________________________
 ## Timeline (Versions):
 
+- 2024.09.17 Added Internal and External Battery readings with encoded Telemetry
 - 2024.08.19 Start as _Alpha_.
 
 ____________________________________________________

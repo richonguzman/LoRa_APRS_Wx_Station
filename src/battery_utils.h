@@ -8,6 +8,7 @@ namespace BATTERY_Utils {
 
     float   checkInternalVoltage();
     float   checkExternalVoltage();
+    String  generateEncodedTelemetry();
 
 }
 

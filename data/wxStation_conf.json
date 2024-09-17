@@ -31,8 +31,8 @@
         "rainActive": false                    
 	},
     "battery": {
-        "sendInternalVoltage": true,
-        "sendExternalVoltage": true,
-        "sendAsEncodedTelemetry": true
+        "sendInternalVoltage": false,
+        "sendExternalVoltage": false,
+        "sendAsEncodedTelemetry": false
     }
 }

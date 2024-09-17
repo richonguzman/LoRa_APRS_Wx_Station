@@ -16,6 +16,8 @@ namespace Utils {
         pinMode(rainSwitchPin,INPUT_PULLUP);
         pinMode(windInfoAddrSwitchPin, INPUT_PULLDOWN);
         pinMode(windChangeAddrSwitchPin, INPUT_PULLDOWN);
+        pinMode(BATTERY_PIN, INPUT);
+        pinMode(EXT_VOLT_PIN, INPUT);
         delay(500);
     }
 
