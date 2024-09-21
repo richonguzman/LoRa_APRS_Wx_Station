@@ -3,7 +3,7 @@
     "beacon": {
         "latitude": 0.0,
         "longitude": 0.0,
-        "comment": "Experimental LoRa APRS Wx Station",
+        "comment": "Wx Station",
         "interval": 10,
         "overlay": "L",
         "symbol": "_",
@@ -25,9 +25,9 @@
         "bme280Active": true,
         "bme280HeightCorrection": 0,
         "bme280TemperatureCorrection": 0.0,
-        "bh1750Active": true,
-        "windDirectionActive": true,
-        "windSpeedActive": true,
-        "rainActive": true                    
+        "bh1750Active": false,
+        "windDirectionActive": false,
+        "windSpeedActive": false,
+        "rainActive": false
 	}
 }

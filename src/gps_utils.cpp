@@ -42,7 +42,7 @@ namespace GPS_Utils {
         for (i = 0; i < 4; i++) {
             encodedData += helper_base91[i];
         }
-        encodedData += symbol + " x" + "\x47";
+        encodedData += symbol + " wX";
         return encodedData;
     }
 

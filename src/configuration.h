@@ -5,7 +5,7 @@
 #include <vector>
 #include <FS.h>
 
-class BEACON {
+class Beacon {
 public:
     double  latitude;
     double  longitude;
@@ -48,7 +48,7 @@ public:
 class Configuration {
 public:
     String                  callsign;
-    BEACON                  beacon;
+    Beacon                  beacon;
     LoraModule              loramodule;
     Display                 display;
     SENSORS                 sensors;
