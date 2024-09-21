@@ -140,52 +140,6 @@ namespace WX_Utils {
         }
         if (beaconUpdate) {
             String wxPacket = buildDataPacket();
-
-            #if defined(BATTERY_PIN) || defined(EXT_VOLT_PIN)
-                if (sendStartTelemetry && Config.battery.sendAsEncodedTelemetry) {                
-                    String sender = Config.callsign;
-                    for (int i = sender.length(); i < 9; i++) {
-                        sender += ' ';
-                    }
-                    String basePacket = Config.callsign + ">APLRG1,WIDE1-1::" + sender + ":";
-                    String tempPacket = basePacket + "EQNS.";
-
-                    if (Config.battery.sendInternalVoltage) {
-                        tempPacket += "0,0.01,0";
-                    }
-                    if (Config.battery.sendExternalVoltage) {
-                        tempPacket += String(Config.battery.sendInternalVoltage ? "," : "") + "0,0.02,0";
-                    }
-                    LoRa_Utils::sendNewPacket(tempPacket);
-                    delay(3000);
-
-                    tempPacket = basePacket + "UNIT.";
-                    if (Config.battery.sendInternalVoltage) {
-                        tempPacket += "VDC";
-                    }
-                    if (Config.battery.sendExternalVoltage) {
-                        tempPacket += String(Config.battery.sendInternalVoltage ? "," : "") + "VDC";
-                    }
-                    LoRa_Utils::sendNewPacket(tempPacket);
-                    delay(3000);
-
-                    tempPacket = basePacket + "PARM.";
-                    if (Config.battery.sendInternalVoltage) {
-                        tempPacket += "V_Batt";
-                    }
-                    if (Config.battery.sendExternalVoltage) {
-                        tempPacket += String(Config.battery.sendInternalVoltage ? "," : "") + "V_Ext";
-                    }
-                    LoRa_Utils::sendNewPacket(tempPacket);
-                    delay(3000);
-                    sendStartTelemetry = false;
-                }            
-
-                if (Config.battery.sendAsEncodedTelemetry) {
-                    wxPacket += BATTERY_Utils::generateEncodedTelemetry();
-                }
-            #endif
-
             Serial.println("Sending LoRa APRS Packet ---> " + wxPacket);
             LoRa_Utils::sendNewPacket(wxPacket);
             lastBeaconTx = millis();
