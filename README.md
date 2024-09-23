@@ -1,5 +1,4 @@
-# CA2RXU LoRa_APRS_Wx_Station...
-
+# CA2RXU LoRa APRS Wx Station
 
 This firmware is for using ESP32 based boards with LoRa Modules to send Wx Data into APRS by adding Temperature, Pressure, Humidity, Luminance, Rain, Wind Speed and Direction sensor.
 
@@ -24,6 +23,7 @@ ____________________________________________________
 
 
 ![Screenshot](https://github.com/richonguzman/LoRa_APRS_Wx_Station/blob/main/images/Wx_Station_Side.jpeg)
+
 (Image Credits: Giovanni Ratto IW1QAF)
 
 ____________________________________________________
