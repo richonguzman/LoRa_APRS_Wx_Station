@@ -23,6 +23,9 @@ ____________________________________________________
 ### 3. Instructions how to connect the sensors --> <a href="https://github.com/richonguzman/LoRa_APRS_Wx_Station/wiki/3.-Instructions-how-to-connect-the-sensors." target="_blank">here</a>
 
 
+![Screenshot](https://github.com/richonguzman/LoRa_APRS_Wx_Station/blob/main/images/Wx_Station_Side.jpeg)
+(Image Credits: Giovanni Ratto IW1QAF)
+
 ____________________________________________________
 ## Timeline (Versions):
 
