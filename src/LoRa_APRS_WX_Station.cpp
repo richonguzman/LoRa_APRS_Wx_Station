@@ -54,6 +54,7 @@ void setup() {
     WX_Utils::setupSensors();
     LoRa_Utils::setup();
     GPS_Utils::generateBeacon();
+    if (!Config.display.alwaysOn) displayToggle(false);
 }
 
 void loop() {
