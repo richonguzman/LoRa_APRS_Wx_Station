@@ -21,6 +21,9 @@
         "timeout": 4,
         "turn180": false
     },
+    "digi": {
+        "mode": 0
+    },
     "sensors": {
         "bme280Active": true,
         "bme280HeightCorrection": 0,

@@ -33,6 +33,11 @@ public:
     bool    turn180;
 };
 
+class Digi {
+public:
+    int     mode;
+};
+
 class SENSORS {
 public:
     bool    bme280Active;
@@ -51,6 +56,7 @@ public:
     Beacon                  beacon;
     LoraModule              loramodule;
     Display                 display;
+    Digi                    digi;
     SENSORS                 sensors;
   
     void init();

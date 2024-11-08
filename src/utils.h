@@ -11,6 +11,8 @@ namespace Utils {
     void checkSwitchesStates();
     void getI2CAddresses();
 
+    bool checkValidCallsign(const String& callsign);
+
 }
 
 #endif

@@ -37,6 +37,8 @@ bool Configuration::readFile() {
         display.timeout                     = data["display"]["timeout"] | 4;
         display.turn180                     = data["display"]["turn180"] | false;
 
+        digi.mode                           = data["digi"]["mode"] | 0;
+
         sensors.bme280Active                = data["sensors"]["bme280Active"] | true;
         sensors.bme280HeightCorrection      = data["sensors"]["bme280HeightCorrection"] | 0;
         sensors.bem280TemperatureCorrection = data["sensors"]["bme280TemperatureCorrection"] | 0.0;

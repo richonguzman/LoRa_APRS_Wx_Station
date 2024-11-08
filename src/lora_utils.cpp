@@ -9,8 +9,10 @@ extern Configuration    Config;
     SX1278 radio = new Module(RADIO_CS_PIN, RADIO_BUSY_PIN, RADIO_RST_PIN);
 #endif
 
-bool operationDone   = true;
-bool transmitFlag    = true;
+bool        operationDone   = true;
+bool        transmitFlag    = true;
+uint32_t    lastRxTime      = millis();
+
 
 namespace LoRa_Utils {
 
@@ -59,6 +61,30 @@ namespace LoRa_Utils {
             Serial.println(String(state));
         }
         digitalWrite(LedPin, LOW);
+    }
+
+    String receivePacket() {
+        String packet = "";
+        if (operationDone) {
+            operationDone = false;
+            if (transmitFlag) {
+                radio.startReceive();
+                transmitFlag = false;
+            } else {
+                int state = radio.readData(packet);
+                if (state == RADIOLIB_ERR_NONE) {
+                    if (packet != "") {
+                        lastRxTime = millis();
+                        return packet;                        
+                    }
+                } else if (state == RADIOLIB_ERR_CRC_MISMATCH) {
+                    packet = "";
+                } else {
+                    packet = "";
+                }
+            }
+        }
+        return packet;
     }
 
 }

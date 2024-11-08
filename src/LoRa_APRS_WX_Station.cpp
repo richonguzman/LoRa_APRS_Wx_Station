@@ -21,16 +21,18 @@ ________________________________________________________________________________
 
 #include <Arduino.h>
 #include "wind_rs485_utils.h"
-#include "boards_pinout.h"
 #include "configuration.h"
+#include "boards_pinout.h"
+#include "station_utils.h"
 #include "lora_utils.h"
+#include "digi_utils.h"
 #include "gps_utils.h"
 #include "wx_utils.h"
 #include "display.h"
 #include "utils.h"
 
 
-String          versionDate = "2024.09.20";
+String          versionDate = "2024.11.07";
 Configuration   Config;
 HardwareSerial  rs485Serial(1);
 
@@ -42,7 +44,8 @@ void setup() {
     delay(4000);
     displaySetup();
     displayShow(" APRS LoRa", "", "      WX Station", "", ""," ", "  CA2RXU  " + versionDate, 4000);
-    Serial.println("\nStarting Weather LoRa APRS Station\n");  
+    Serial.println("\nStarting Weather LoRa APRS Station\n");
+    if (Config.digi.mode != 0) Serial.println("(DigiMode enabled)");
 
     Utils::pinDeclarations();
     Utils::checkSwitchesStates();
@@ -54,6 +57,19 @@ void setup() {
 }
 
 void loop() {
+
+    /*  Digipeater  */
+    String packet = "";
+    if (Config.digi.mode != 0) {
+        packet = LoRa_Utils::receivePacket();
+        if (packet != "") {
+            STATION_Utils::clean25SegBuffer();
+            DIGI_Utils::processLoRaPacket(packet);
+        }
+    }
+    STATION_Utils::processOutputPacketBuffer();
+    /****************/
+
     WX_Utils::loop();
     displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }

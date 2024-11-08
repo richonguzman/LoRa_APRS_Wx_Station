@@ -5,8 +5,9 @@
 
 namespace LoRa_Utils {
 
-    void setup();
-    void sendNewPacket(const String& newPacket);
+    void    setup();
+    void    sendNewPacket(const String& newPacket);
+    String  receivePacket();
     
 }
 
