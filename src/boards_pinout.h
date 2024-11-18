@@ -47,6 +47,13 @@
 
 /*  BME280 uses the same I2C pinouts as BH1750 */
 
+/*  ML8511
+    VCC                 3.3V
+    GND                 GND
+    OUT                 io_02
+    EN                  io_00
+*/
+
 /*  RS485 to TTLWind Direction Sensor
 
     ESP32       RS485/TTL   |   RS485/TTL   RS485-Wind/DirectionSensor
