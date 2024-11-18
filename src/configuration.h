@@ -46,7 +46,8 @@ public:
     bool    bh1750Active;
     bool    windDirectionActive;
     bool    windSpeedActive;
-    bool    rainActive;    
+    bool    rainActive;
+    bool    ml8511;
 };
 
 

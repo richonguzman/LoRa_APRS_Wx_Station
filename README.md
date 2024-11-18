@@ -29,6 +29,8 @@ ____________________________________________________
 ____________________________________________________
 ## Timeline (Versions):
 
+- 2024.11.18 added ML8511 UV sensor readings.
+- 2024.11.10 added Digirepeater Mode
 - 2024.09.20 Packet Length Fix and minor bugs correction.
 - 2024.08.19 Start as _Alpha_.
 

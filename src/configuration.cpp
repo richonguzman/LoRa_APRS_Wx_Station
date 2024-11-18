@@ -45,8 +45,8 @@ bool Configuration::readFile() {
         sensors.bh1750Active                = data["sensors"]["bh1750Active"] | true;
         sensors.windDirectionActive         = data["sensors"]["windDirectionActive"] | true;
         sensors.windSpeedActive             = data["sensors"]["windSpeedActive"] | true;
-        sensors.rainActive                  = data["sensors"]["rainActive"] | true;       
-        
+        sensors.rainActive                  = data["sensors"]["rainActive"] | true;
+        sensors.ml8511                      = data["sensors"]["ml8511"] | true;
 
         configFile.close();
         Serial.println("Config read successfuly");

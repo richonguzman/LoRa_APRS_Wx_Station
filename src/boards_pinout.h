@@ -18,7 +18,7 @@
 #define RADIO_MISO_PIN          19
 #define RADIO_MOSI_PIN          27
 #define RADIO_CS_PIN            18
-#define RADIO_RST_PIN           14
+#define RADIO_RST_PIN           23
 #define RADIO_BUSY_PIN          26
 
 // RS485 to TTL
@@ -27,6 +27,10 @@
 
 // RAIN
 #define rainSwitchPin           15
+
+// UV Sensor
+#define UV_EN_PIN               0
+#define UV_OUT_PIN              2
 
 #endif
 

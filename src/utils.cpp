@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include "wind_rs485_utils.h"
+#include "configuration.h"
 #include "boards_pinout.h"
 #include "utils.h"
 #include "display.h"
@@ -8,14 +9,24 @@
 uint8_t bh1750Addr  = 0x00;
 uint8_t bme280Addr  = 0x00;
 
+extern Configuration    Config;
+
 
 namespace Utils {
 
     void pinDeclarations() {
         pinMode(LedPin, OUTPUT);
-        pinMode(rainSwitchPin,INPUT_PULLUP);
+
+        if (Config.sensors.rainActive) pinMode(rainSwitchPin,INPUT_PULLUP);
+
         pinMode(windInfoAddrSwitchPin, INPUT_PULLDOWN);
         pinMode(windChangeAddrSwitchPin, INPUT_PULLDOWN);
+
+        if (Config.sensors.ml8511) {
+            pinMode(UV_EN_PIN, OUTPUT);
+            digitalWrite(UV_EN_PIN, LOW);
+            pinMode(UV_OUT_PIN, INPUT);
+        }
         delay(500);
     }
 

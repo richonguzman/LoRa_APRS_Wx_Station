@@ -31,6 +31,7 @@
         "bh1750Active": false,
         "windDirectionActive": false,
         "windSpeedActive": false,
-        "rainActive": false
+        "rainActive": false,
+        "ml8511": false
 	}
 }

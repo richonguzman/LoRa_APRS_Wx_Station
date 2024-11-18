@@ -3,6 +3,7 @@
 #include "boards_pinout.h"
 #include "configuration.h"
 #include "bh1750_utils.h"
+#include "ml8511_utils.h"
 #include "bme280_utils.h"
 #include "lora_utils.h"
 #include "rain_utils.h"
@@ -96,6 +97,8 @@ namespace WX_Utils {
             wxPacket += "L";
             wxPacket += Luminosity;
         }
+
+        if (Config.sensors.ml8511) ML8511_Utils::readSensor();
                 
         return wxPacket + Config.beacon.comment;
     }
@@ -146,6 +149,9 @@ namespace WX_Utils {
         if (Config.sensors.bh1750Active) BH1750_Utils::setup();
         if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) WIND_RS485_Utils::setup();
         firstLine = Config.callsign;
+
+
+        
     }
     
 }
