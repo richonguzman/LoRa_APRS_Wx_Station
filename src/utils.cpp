@@ -13,9 +13,15 @@ namespace Utils {
 
     void pinDeclarations() {
         pinMode(LedPin, OUTPUT);
-        pinMode(rainSwitchPin,INPUT_PULLUP);
-        pinMode(windInfoAddrSwitchPin, INPUT_PULLDOWN);
-        pinMode(windChangeAddrSwitchPin, INPUT_PULLDOWN);
+        #ifdef rainSwitchPin
+            pinMode(rainSwitchPin,INPUT_PULLUP);
+        #endif
+        #ifdef windInfoAddrSwitchPin
+            pinMode(windInfoAddrSwitchPin, INPUT_PULLDOWN);
+        #endif
+        #ifdef windChangeAddrSwitchPin
+            pinMode(windChangeAddrSwitchPin, INPUT_PULLDOWN);
+        #endif
         delay(500);
     }
 
@@ -39,11 +45,13 @@ namespace Utils {
     }
 
     void checkSwitchesStates() {
-        if (digitalRead(windInfoAddrSwitchPin) == HIGH && digitalRead(windChangeAddrSwitchPin) == LOW) {
-            checkWindDireccionSensorAddress();
-        } else if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
-            changeWindDireccionSensorAddress();
-        }
+        #if defined(windInfoAddrSwitchPin) && defined(windChangeAddrSwitchPin)
+            if (digitalRead(windInfoAddrSwitchPin) == HIGH && digitalRead(windChangeAddrSwitchPin) == LOW) {
+                checkWindDireccionSensorAddress();
+            } else if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
+                changeWindDireccionSensorAddress();
+            }
+        #endif
     }
 
     void getI2CAddresses() {

@@ -18,8 +18,10 @@ String  WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, WindAngle, WindDirect
 namespace WIND_RS485_Utils {
     
     void setup() {
-        rs485Serial.begin(4800,SERIAL_8N1,RS485_RXD,RS485_TXD); // default speed in bauds
-        Serial.println("init : RS485  Module  ...     done!");
+        #if defined(RS485_RXD) && defined(RS485_TXD)
+            rs485Serial.begin(4800,SERIAL_8N1,RS485_RXD,RS485_TXD); // default speed in bauds
+            Serial.println("init : RS485  Module  ...     done!");
+        #endif
     }
 
     void generateWindSpeedString() {

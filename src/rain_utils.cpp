@@ -81,19 +81,21 @@ namespace RAIN_Utils {
     }
 
     void loop() {
-        int rainSwitchReading = digitalRead(rainSwitchPin);
-        if (rainSwitchReading != rainLastSwitchState) {         // Check if the button state has changed
-            lastDebounceTime = millis();                        // Reset the debounce timer
-        }
-        if ((millis() - lastDebounceTime) > debounceDelay) {    // Check if the debounce delay has elapsed
-            if (rainSwitchReading != rainSwitchState) {         // Update the button state only if the button state has been stable for the debounce delay
-                rainSwitchState = rainSwitchReading;
-                if (rainSwitchState == LOW) { 
-                    rainTippingCounter++;
+        #ifdef rainSwitchPin
+            int rainSwitchReading = digitalRead(rainSwitchPin);
+            if (rainSwitchReading != rainLastSwitchState) {         // Check if the button state has changed
+                lastDebounceTime = millis();                        // Reset the debounce timer
+            }
+            if ((millis() - lastDebounceTime) > debounceDelay) {    // Check if the debounce delay has elapsed
+                if (rainSwitchReading != rainSwitchState) {         // Update the button state only if the button state has been stable for the debounce delay
+                    rainSwitchState = rainSwitchReading;
+                    if (rainSwitchState == LOW) { 
+                        rainTippingCounter++;
+                    }
                 }
             }
-        }
-        rainLastSwitchState = rainSwitchReading;                // Save the current button state for comparison in the next iteration
+            rainLastSwitchState = rainSwitchReading;                // Save the current button state for comparison in the next iteration
+        #endif
     }
 
 }
