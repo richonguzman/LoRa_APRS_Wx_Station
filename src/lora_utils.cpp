@@ -61,4 +61,12 @@ namespace LoRa_Utils {
         digitalWrite(LedPin, LOW);
     }
 
+    void sleepRadio() {
+        radio.sleep();
+    }
+
+    /*void wakeRadio() {
+        radio.startReceive();
+    }*/
+
 }

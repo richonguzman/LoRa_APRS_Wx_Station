@@ -54,7 +54,7 @@ namespace GPS_Utils {
             beaconPacket += Config.beacon.path;
         }
         beaconPacket += ":!";
-        beaconPacket += encodeGPS(Config.beacon.latitude, Config.beacon.longitude, "L", "_");
+        beaconPacket += encodeGPS(Config.beacon.latitude, Config.beacon.longitude, Config.beacon.overlay, Config.beacon.symbol);
     }
 
 }

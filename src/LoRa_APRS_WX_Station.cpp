@@ -36,6 +36,9 @@ HardwareSerial  rs485Serial(1);
 
 String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine;
 
+//
+uint32_t ledTime = 0;
+//
 
 void setup() {
     Serial.begin(115200);
@@ -54,6 +57,14 @@ void setup() {
 }
 
 void loop() {
+
+    //
+    if (millis() - ledTime > 1000) {                    // 1000 ms = 1 second
+        digitalWrite(LedPin, !digitalRead(LedPin));     // Toggle LED state
+        ledTime = millis();                             // Reset timer
+    }
+    //
+
     WX_Utils::loop();
-    displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
+    displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);    
 }

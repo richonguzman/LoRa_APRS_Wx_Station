@@ -4,6 +4,7 @@
 #include "configuration.h"
 #include "bh1750_utils.h"
 #include "bme280_utils.h"
+#include "sleep_utils.h"
 #include "lora_utils.h"
 #include "rain_utils.h"
 #include "gps_utils.h"
@@ -27,11 +28,12 @@ extern bool             bh1750SensorFound;
 extern String           beaconPacket;
 extern String           versionDate;
 
+
 int         windReadingInterval     = 1;        // min
-uint32_t    lastWindReading         = 10000;
+uint32_t    lastWindReading         = 0;
 uint32_t    lastBeaconTx            = 0;
 bool        beaconUpdate            = false;
-bool        statusAfterBoot         = true;
+bool        statusAfterBoot         = false;//true; !!!!!!!!!!!!!!!!!!!!
 
 
 namespace WX_Utils {
@@ -119,7 +121,7 @@ namespace WX_Utils {
 
         uint32_t currentTime = millis();
 
-        if (currentTime - lastWindReading >= windReadingInterval * 60 * 1000) {
+        if (lastWindReading == 0 || currentTime - lastWindReading >= windReadingInterval * 60 * 1000) {
             if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) WIND_RS485_Utils::readSensor();
             if (Config.sensors.rainActive) RAIN_Utils::processMinute();
             lastWindReading = currentTime;
@@ -138,6 +140,7 @@ namespace WX_Utils {
         if (statusAfterBoot) {
             processStatus();
         }
+        if (Config.sleepBetweenReadings) SLEEP_Utils::start();
     }
 
     void setupSensors() {
