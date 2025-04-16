@@ -27,10 +27,10 @@ extern bool             bh1750SensorFound;
 extern String           beaconPacket;
 extern String           versionDate;
 
-int         sensorReadingInterval   = 1;        // min
-uint32_t    lastSensorReading       = 10000;
+int         windReadingInterval     = 1;        // min
+uint32_t    lastWindReading         = 10000;
 uint32_t    lastBeaconTx            = 0;
-bool        beaconUpdate            = true;     // deberia ser false por que no hay promedio!
+bool        beaconUpdate            = false;
 bool        statusAfterBoot         = true;
 
 
@@ -117,22 +117,22 @@ namespace WX_Utils {
     void loop() {
         if (Config.sensors.rainActive) RAIN_Utils::loop();
 
-        uint32_t lastWind = millis() - lastSensorReading;
-        if (lastWind >= sensorReadingInterval * 60 * 1000) {
+        uint32_t currentTime = millis();
+
+        if (currentTime - lastWindReading >= windReadingInterval * 60 * 1000) {
             if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) WIND_RS485_Utils::readSensor();
             if (Config.sensors.rainActive) RAIN_Utils::processMinute();
-            lastSensorReading = millis();
+            lastWindReading = currentTime;
         }
 
-        uint32_t lastTx = millis() - lastBeaconTx;
-        if (lastTx >= Config.beacon.interval * 60 * 1000) {
+        if (lastBeaconTx == 0 || currentTime - lastBeaconTx >= Config.beacon.interval * 60 * 1000) {
             beaconUpdate = true;
         }
         if (beaconUpdate) {            
             String wxPacket = buildDataPacket();
             Serial.println("Sending LoRa APRS Packet ---> " + wxPacket);
             LoRa_Utils::sendNewPacket(wxPacket);
-            lastBeaconTx = millis();
+            lastBeaconTx = currentTime;
             beaconUpdate = false;
         }
         if (statusAfterBoot) {
