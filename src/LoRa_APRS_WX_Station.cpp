@@ -30,7 +30,7 @@ ________________________________________________________________________________
 #include "utils.h"
 
 
-String          versionDate = "2025.04.15";
+String          versionDate = "2025.04.16";
 Configuration   Config;
 HardwareSerial  rs485Serial(1);
 

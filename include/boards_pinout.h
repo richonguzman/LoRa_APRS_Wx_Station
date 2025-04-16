@@ -59,8 +59,8 @@
     #define RADIO_RST_PIN   33      // IO18     - SX1276 RST
     #define RADIO_BUSY_PIN  38      // IO16     - SX1276 IRQ ---->DIO0
 
-    #define OLED_SDA        12
-    #define OLED_SCL        13
+    #define OLED_SDA        8
+    #define OLED_SCL        9
     #define OLED_RESET      -1
 
     #define LedPin          15

@@ -40,10 +40,10 @@ bool Configuration::readFile() {
         sensors.bme280Active                = data["sensors"]["bme280Active"] | true;
         sensors.bme280HeightCorrection      = data["sensors"]["bme280HeightCorrection"] | 0;
         sensors.bem280TemperatureCorrection = data["sensors"]["bme280TemperatureCorrection"] | 0.0;
-        sensors.bh1750Active                = data["sensors"]["bh1750Active"] | true;
-        sensors.windDirectionActive         = data["sensors"]["windDirectionActive"] | true;
-        sensors.windSpeedActive             = data["sensors"]["windSpeedActive"] | true;
-        sensors.rainActive                  = data["sensors"]["rainActive"] | true;       
+        sensors.bh1750Active                = data["sensors"]["bh1750Active"] | false;
+        sensors.windDirectionActive         = data["sensors"]["windDirectionActive"] | false;
+        sensors.windSpeedActive             = data["sensors"]["windSpeedActive"] | false;
+        sensors.rainActive                  = data["sensors"]["rainActive"] | false;       
         
 
         configFile.close();
