@@ -57,3 +57,11 @@ void loop() {
     WX_Utils::loop();
     displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);    
 }
+
+
+/* RAK RS485 to TTL
+GND to GND
+VDD to VCC
+SDA to RXD
+SCL to TXD
+*/
