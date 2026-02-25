@@ -1,5 +1,5 @@
-#ifndef PINS_CONFIG_H_
-#define PINS_CONFIG_H_
+#ifndef BOARDS_PINOUT_H_
+#define BOARDS_PINOUT_H_
 
 #undef OLED_SDA
 #undef OLED_SCL
@@ -44,7 +44,7 @@
     RS485 to TTLWind Direction Sensor
 
     ESP32       RS485/TTL   |   RS485/TTL   RS485-Wind/DirectionSensor
-    3.3V        VCC         |   ---         Brown (to 10-30 VDC external supply) 
+    3.3V        VCC         |   ---         Brown (to 10-30 VDC external supply)
     34          RXD         |   A+          Yellow
     4           TXD         |   B-          Blue
     GND         GND         |   GND         Black

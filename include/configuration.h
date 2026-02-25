@@ -5,6 +5,7 @@
 #include <vector>
 #include <FS.h>
 
+
 class BEACON {
 public:
     double  latitude;
@@ -41,7 +42,7 @@ public:
     bool    bh1750Active;
     bool    windDirectionActive;
     bool    windSpeedActive;
-    bool    rainActive;    
+    bool    rainActive;
 };
 
 
@@ -53,7 +54,7 @@ public:
     Display                 display;
     SENSORS                 sensors;
     bool                    sleepBetweenReadings;
-  
+
     void init();
     void writeFile();
     Configuration();

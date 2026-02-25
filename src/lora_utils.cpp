@@ -12,13 +12,14 @@ extern Configuration    Config;
 bool operationDone   = true;
 bool transmitFlag    = true;
 
+
 namespace LoRa_Utils {
 
     void setFlag(void) {
         operationDone = true;
     }
 
-    void setup() {        
+    void setup() {
         //Serial.println("LoRa  Set SPI pins!");
         SPI.begin(RADIO_SCLK_PIN, RADIO_MISO_PIN, RADIO_MOSI_PIN);
         float freq = (float)Config.loramodule.txFreq / 1000000;

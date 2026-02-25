@@ -26,7 +26,7 @@ bool Configuration::readFile() {
         beacon.overlay                      = data["beacon"]["overlay"] | "L";
         beacon.symbol                       = data["beacon"]["symbol"] | "_";
         beacon.path                         = data["beacon"]["path"] | "WIDE1-1";
-        
+
         loramodule.txFreq                   = data["lora"]["txFreq"] | 433775000;
         loramodule.spreadingFactor          = data["lora"]["spreadingFactor"] | 12;
         loramodule.signalBandwidth          = data["lora"]["signalBandwidth"] | 125000;
@@ -45,7 +45,7 @@ bool Configuration::readFile() {
         sensors.windSpeedActive             = data["sensors"]["windSpeedActive"] | false;
         sensors.rainActive                  = data["sensors"]["rainActive"] | false;
 
-        sleepBetweenReadings                = data["other"]["sleepBetweenReadings"] | false;     
+        sleepBetweenReadings                = data["other"]["sleepBetweenReadings"] | false;
 
         configFile.close();
         Serial.println("Config read successfuly");

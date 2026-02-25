@@ -9,6 +9,7 @@ extern Configuration    Config;
 
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 
+
 void displaySetup() {
     Wire.begin(OLED_SDA, OLED_SCL);
 

@@ -3,12 +3,13 @@
 
 #include <Arduino.h>
 
+
 namespace LoRa_Utils {
 
     void setup();
     void sendNewPacket(const String& newPacket);
     void sleepRadio();
-    
+
 }
 
 #endif

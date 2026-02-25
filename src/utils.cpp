@@ -37,7 +37,7 @@ namespace Utils {
     }
 
     void changeWindDireccionSensorAddress() {
-        displayShow("SENSOR ID", "Starting :", "RS485 Wind Direction", "Sensor Address", "Change Procedure...", "check -->", "Serial output");   
+        displayShow("SENSOR ID", "Starting :", "RS485 Wind Direction", "Sensor Address", "Change Procedure...", "check -->", "Serial output");
         Serial.println("RS485  Sensor address change procedure.");
         WIND_RS485_Utils::setup();
         delay(1000);

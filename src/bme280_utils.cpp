@@ -1,8 +1,8 @@
-#include "boards_pinout.h"
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 #include <bme280_utils.h>
 #include "configuration.h"
+#include "boards_pinout.h"
 #include "display.h"
 #include "utils.h"
 

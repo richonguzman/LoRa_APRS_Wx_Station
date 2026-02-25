@@ -3,8 +3,9 @@
 
 #include <Arduino.h>
 
+
 namespace WIND_RS485_Utils {
-    
+
     void setup();
     void readSensor_WindSpeed();
     void readSensor_WindDirection();

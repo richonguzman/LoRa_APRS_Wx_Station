@@ -52,8 +52,8 @@ namespace WX_Utils {
             Temperature         = "...";
             Humidity            = "..";
             BarometricPressure  = ".....";
-        }        
-        
+        }
+
         if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) {
             WIND_RS485_Utils::generateData();
         } else {
@@ -76,10 +76,10 @@ namespace WX_Utils {
         wxPacket += WindSpeedMpH;
         wxPacket += "g";
         wxPacket += WindGust;
-        
+
         wxPacket += "t";
         wxPacket += Temperature;
-        
+
         if (Config.sensors.bme280Active && bme280SensorFound) {
             wxPacket += "h";
             wxPacket += Humidity;
@@ -93,12 +93,12 @@ namespace WX_Utils {
             wxPacket += "p";
             wxPacket += RainLast24Hr;
         }
-        
+
         if (Config.sensors.bh1750Active && bh1750SensorFound) {
             wxPacket += "L";
             wxPacket += Luminosity;
         }
-                
+
         return wxPacket + Config.beacon.comment;
     }
 
@@ -115,7 +115,7 @@ namespace WX_Utils {
         LoRa_Utils::sendNewPacket(status);
         statusAfterBoot = false;
     }
-    
+
     void loop() {
         if (Config.sensors.rainActive) RAIN_Utils::loop();
 
@@ -130,7 +130,7 @@ namespace WX_Utils {
         if (lastBeaconTx == 0 || currentTime - lastBeaconTx >= Config.beacon.interval * 60 * 1000) {
             beaconUpdate = true;
         }
-        if (beaconUpdate) {            
+        if (beaconUpdate) {
             String wxPacket = buildDataPacket();
             Serial.println("Sending LoRa APRS Packet ---> " + wxPacket);
             LoRa_Utils::sendNewPacket(wxPacket);
@@ -150,5 +150,5 @@ namespace WX_Utils {
         if (Config.sensors.windDirectionActive || Config.sensors.windSpeedActive) WIND_RS485_Utils::setup();
         firstLine = Config.callsign;
     }
-    
+
 }
