@@ -1,5 +1,5 @@
-#include "boards_pinout.h"
 #include <rain_utils.h>
+#include "board_pinout.h"
 
 extern String sixthLine;
 
@@ -16,7 +16,7 @@ int         debounceDelay           = 50;
 
 String      RainLastHr, RainLast24Hr;
 
-namespace RAIN_Utils { 
+namespace RAIN_Utils {
 
     String generateRain1HString() {           // last 1 Hr
         float rain1H = 0;
@@ -81,15 +81,15 @@ namespace RAIN_Utils {
     }
 
     void loop() {
-        #ifdef rainSwitchPin
-            int rainSwitchReading = digitalRead(rainSwitchPin);
+        #ifdef RAIN_SWITCH_PIN
+            int rainSwitchReading = digitalRead(RAIN_SWITCH_PIN);
             if (rainSwitchReading != rainLastSwitchState) {         // Check if the button state has changed
                 lastDebounceTime = millis();                        // Reset the debounce timer
             }
             if ((millis() - lastDebounceTime) > debounceDelay) {    // Check if the debounce delay has elapsed
                 if (rainSwitchReading != rainSwitchState) {         // Update the button state only if the button state has been stable for the debounce delay
                     rainSwitchState = rainSwitchReading;
-                    if (rainSwitchState == LOW) { 
+                    if (rainSwitchState == LOW) {
                         rainTippingCounter++;
                     }
                 }

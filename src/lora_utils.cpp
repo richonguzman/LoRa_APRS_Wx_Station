@@ -1,10 +1,13 @@
 #include <RadioLib.h>
 #include <SPI.h>
 #include "configuration.h"
-#include "boards_pinout.h"
+#include "board_pinout.h"
 
 extern Configuration    Config;
 
+#ifdef HAS_SX1262
+    SX1262 radio = new Module(RADIO_CS_PIN, RADIO_DIO1_PIN, RADIO_RST_PIN, RADIO_BUSY_PIN);
+#endif
 #ifdef HAS_SX1278
     SX1278 radio = new Module(RADIO_CS_PIN, RADIO_BUSY_PIN, RADIO_RST_PIN);
 #endif
@@ -18,7 +21,7 @@ namespace LoRa_Utils {
         operationDone = true;
     }
 
-    void setup() {        
+    void setup() {
         //Serial.println("LoRa  Set SPI pins!");
         SPI.begin(RADIO_SCLK_PIN, RADIO_MISO_PIN, RADIO_MOSI_PIN);
         float freq = (float)Config.loramodule.txFreq / 1000000;
@@ -48,7 +51,7 @@ namespace LoRa_Utils {
     }
 
     void sendNewPacket(const String& newPacket) {
-        digitalWrite(LedPin, HIGH);
+        digitalWrite(INTERNAL_LED_PIN, HIGH);
         int state = radio.transmit("\x3c\xff\x01" + newPacket);
         transmitFlag = true;
         if (state == RADIOLIB_ERR_NONE) {
@@ -58,7 +61,7 @@ namespace LoRa_Utils {
             Serial.print(F("failed, code "));
             Serial.println(String(state));
         }
-        digitalWrite(LedPin, LOW);
+        digitalWrite(INTERNAL_LED_PIN, LOW);
     }
 
 }

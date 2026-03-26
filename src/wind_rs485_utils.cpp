@@ -1,22 +1,19 @@
-#include "boards_pinout.h"
 #include "wind_rs485_utils.h"
-#include "display.h"
+#include "board_pinout.h"
 
 
 extern  HardwareSerial          rs485Serial;
 extern  String                  fifthLine;
 
-int     windArrayIndex          = 0; 
+int     windArrayIndex          = 0;
 float   windSpeedArray[10]      = {0.0};
 int     windDirectionArray[10]  = {0};
-uint8_t OldSensorAddress        = 0x01;
-uint8_t NewSensorAddress        = 0x02;
 
 String  WindSpeedMs, WindSpeedKmH, WindSpeedMpH, WindGust, WindAngle, WindDirection;
 
 
 namespace WIND_RS485_Utils {
-    
+
     void setup() {
         #if defined(RS485_RXD) && defined(RS485_TXD)
             rs485Serial.begin(4800,SERIAL_8N1,RS485_RXD,RS485_TXD); // default speed in bauds
@@ -25,7 +22,7 @@ namespace WIND_RS485_Utils {
     }
 
     void generateWindSpeedString() {
-        float speedSum = 0;        
+        float speedSum = 0;
         for (int i = 0; i < 10; i++) {
             speedSum += windSpeedArray[i];
         }
@@ -38,7 +35,7 @@ namespace WIND_RS485_Utils {
                 break;
             case 2:
                 WindSpeedMpH = "0" + WindSpeedMpH;
-                break;            
+                break;
             default:
                 break;
         }
@@ -58,7 +55,7 @@ namespace WIND_RS485_Utils {
                 break;
             case 2:
                 WindGust = "0" + WindGust;
-                break;            
+                break;
             default:
                 break;
         }
@@ -255,91 +252,6 @@ namespace WIND_RS485_Utils {
         fifthLine   += WindGust;
         fifthLine   += ")m/s ";
         fifthLine   += WindDirection;
-    }
-
-    void checkSensorAddress() {
-        Serial.print("Sensor 0x00 --> "); 
-        if ((readWindDirection(0x00)/45) == -1) {
-            Serial.println("not detected)");
-        } else {
-            Serial.println("detected)");
-        }
-        delay(500);
-
-        Serial.print("Sensor 0x01 --> "); 
-        if ((readWindDirection(0x01)/45) == -1) {
-            Serial.println("not detected)");
-        } else {
-            Serial.println("detected)");
-        }
-        delay(500);
-
-        Serial.print("Sensor 0x02 --> "); 
-        if ((readWindDirection(0x02)/45) == -1) {
-            Serial.println("not detected)");
-        } else {
-            Serial.println("detected)");
-        }    
-    }
-
-    boolean modifySensorAddress(uint8_t Address1, uint8_t Address2) {
-        Serial.println("iniciando cambio addrress");
-        uint8_t ModifyAddressCOM[8] = {0x00, 0x06, 0x07, 0xD0, 0x00, 0x00, 0x00, 0x00};
-        boolean ret = false;
-        long curr = millis();
-        long curr1 = curr;
-        uint8_t ch = 0;
-        ModifyAddressCOM[0] = Address1;
-        ModifyAddressCOM[5] = Address2;
-        addCRC(ModifyAddressCOM , 6);
-        /*Serial.println(ModifyAddressCOM[0]);
-        Serial.println(ModifyAddressCOM[5]);
-        Serial.println(ModifyAddressCOM[6]);
-        Serial.println(ModifyAddressCOM[7]);*/
-        
-        rs485Serial.write(ModifyAddressCOM, 8); // sends the register modification request        
-        if (Address1 != 0x00) {     // if original address != 0x00, check echoed command is ok = command adressed to 0x00 are not echoed
-            while (!ret) {
-                if (millis() - curr > 1000) {
-                    break;
-                }
-                if (millis() - curr1 > 100) {
-                    rs485Serial.write(ModifyAddressCOM, 8);
-                    curr1 = millis();
-                }
-                if ((readN(&ch, 1) == 1) && (ch == Address1)) {
-                    if ((readN(&ch, 1) == 1) && (ch == 0x06)) {
-                        if ((readN(&ch, 1) == 1) && (ch == 0x07)) {
-                            if ((readN(&ch, 1) == 1) && (ch == 0xD0)) {
-                                if ((readN(&ch, 1) == 1) && (ch == 0x00)) {
-                                    if ((readN(&ch, 1) == 1) && (ch == Address2)) {
-                                        ret = true ;
-                                    } else {
-                                        ret = false;
-                                    }
-                                }    
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            ret = true; // return true if Address1 is 0x00
-        } 
-        return ret;
-    }
-
-    void changeSensorAddress() {
-        digitalWrite(LedPin, HIGH);
-        if (!modifySensorAddress(OldSensorAddress,NewSensorAddress)) {
-            Serial.println("RS485  No communication with sensor");
-            displayShow("__RS485__", "", "   NO Comunication", "   with Sensor...", "", "", "", 0);
-        } else {
-            Serial.println("RS485  Address change OK");
-            Serial.println("RS485  Release switch and repower the sensor !");
-            displayShow("__RS485__","Address changed","","to 0x" + String(NewSensorAddress,HEX));
-        }
-        for (;;);
     }
 
 }

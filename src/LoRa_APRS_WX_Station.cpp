@@ -1,12 +1,12 @@
 /*_____________________________________________________________________________________
 
-        ██╗      ██████╗ ██████╗  █████╗      █████╗ ██████╗ ██████╗ ███████╗         
-        ██║     ██╔═══██╗██╔══██╗██╔══██╗    ██╔══██╗██╔══██╗██╔══██╗██╔════╝         
-        ██║     ██║   ██║██████╔╝███████║    ███████║██████╔╝██████╔╝███████╗         
-        ██║     ██║   ██║██╔══██╗██╔══██║    ██╔══██║██╔═══╝ ██╔══██╗╚════██║         
-        ███████╗╚██████╔╝██║  ██║██║  ██║    ██║  ██║██║     ██║  ██║███████║         
-        ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝         
-                                                                              
+        ██╗      ██████╗ ██████╗  █████╗      █████╗ ██████╗ ██████╗ ███████╗
+        ██║     ██╔═══██╗██╔══██╗██╔══██╗    ██╔══██╗██╔══██╗██╔══██╗██╔════╝
+        ██║     ██║   ██║██████╔╝███████║    ███████║██████╔╝██████╔╝███████╗
+        ██║     ██║   ██║██╔══██╗██╔══██║    ██╔══██║██╔═══╝ ██╔══██╗╚════██║
+        ███████╗╚██████╔╝██║  ██║██║  ██║    ██║  ██║██║     ██║  ██║███████║
+        ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚══════╝
+
     ██╗    ██╗██╗  ██╗    ███████╗████████╗ █████╗ ████████╗██╗ ██████╗ ███╗   ██╗
     ██║    ██║╚██╗██╔╝    ██╔════╝╚══██╔══╝██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║
     ██║ █╗ ██║ ╚███╔╝     ███████╗   ██║   ███████║   ██║   ██║██║   ██║██╔██╗ ██║
@@ -14,15 +14,16 @@
     ╚███╔███╔╝██╔╝ ██╗    ███████║   ██║   ██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║
      ╚══╝╚══╝ ╚═╝  ╚═╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 
-                              Ricardo Guzman - CA2RXU 
+                              Ricardo Guzman - CA2RXU
                  https://github.com/richonguzman/LoRa_APRS_Tracker
                     (donations : http://paypal.me/richonguzman)
 _____________________________________________________________________________________*/
 
 #include <Arduino.h>
 #include "wind_rs485_utils.h"
-#include "boards_pinout.h"
 #include "configuration.h"
+#include "board_pinout.h"
+#include "power_utils.h"
 #include "lora_utils.h"
 #include "gps_utils.h"
 #include "wx_utils.h"
@@ -30,7 +31,7 @@ ________________________________________________________________________________
 #include "utils.h"
 
 
-String          versionDate = "2025.04.16";
+String          versionDate = "2026-03-26";
 Configuration   Config;
 HardwareSerial  rs485Serial(1);
 
@@ -40,13 +41,12 @@ String firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seven
 void setup() {
     Serial.begin(115200);
     delay(4000);
+    POWER_Utils::setup();
     displaySetup();
     displayShow(" APRS LoRa", "", "      WX Station", "", ""," ", "  CA2RXU  " + versionDate, 4000);
-    Serial.println("\nStarting Weather LoRa APRS Station\n");  
+    Serial.println("\nStarting Weather LoRa APRS Station\n");
 
     Utils::pinDeclarations();
-    Utils::checkSwitchesStates();
-
     Utils::getI2CAddresses();
     WX_Utils::setupSensors();
     LoRa_Utils::setup();
@@ -57,3 +57,11 @@ void loop() {
     WX_Utils::loop();
     displayShow(firstLine, secondLine, thirdLine, fourthLine, fifthLine, sixthLine, seventhLine, 0);
 }
+
+
+/* RAK RS485 to TTL
+GND to GND
+VDD to VCC
+SDA to RXD
+SCL to TXD
+*/

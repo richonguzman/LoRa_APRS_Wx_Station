@@ -1,6 +1,6 @@
-#include "boards_pinout.h"
 #include <bh1750_utils.h>
 #include <BH1750.h>
+#include "board_pinout.h"
 #include "display.h"
 #include "utils.h"
 
@@ -34,7 +34,7 @@ namespace BH1750_Utils {
     }
 
     String generateLumString(float lum) {
-        String light = ""; 
+        String light = "";
         light  = String((int)lum);
         switch (light.length()) {
             case 1:
@@ -81,6 +81,6 @@ namespace BH1750_Utils {
         seventhLine = "Luminosity : ";
         seventhLine += Luminosity;
         seventhLine += " W/m2";
-    }    
+    }
 
 }

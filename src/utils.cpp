@@ -1,8 +1,6 @@
 #include <Wire.h>
-#include "wind_rs485_utils.h"
-#include "boards_pinout.h"
+#include "board_pinout.h"
 #include "utils.h"
-#include "display.h"
 
 
 uint8_t bh1750Addr  = 0x00;
@@ -12,46 +10,11 @@ uint8_t bme280Addr  = 0x00;
 namespace Utils {
 
     void pinDeclarations() {
-        pinMode(LedPin, OUTPUT);
-        #ifdef rainSwitchPin
-            pinMode(rainSwitchPin,INPUT_PULLUP);
-        #endif
-        #ifdef windInfoAddrSwitchPin
-            pinMode(windInfoAddrSwitchPin, INPUT_PULLDOWN);
-        #endif
-        #ifdef windChangeAddrSwitchPin
-            pinMode(windChangeAddrSwitchPin, INPUT_PULLDOWN);
+        pinMode(INTERNAL_LED_PIN, OUTPUT);
+        #ifdef RAIN_SWITCH_PIN
+            pinMode(RAIN_SWITCH_PIN,INPUT_PULLUP);
         #endif
         delay(500);
-    }
-
-    void checkWindDireccionSensorAddress() {
-        displayShow("SENSOR ID", "Starting :", "RS485 Wind Direction", "Sensor Address", "Identifier...", "check -->", "Serial output");
-        Serial.println("Starting : RS485 'Wind Direction' Sensor Address Identifier...");
-        WIND_RS485_Utils::setup();
-        delay(1000);
-        while(1) {
-            WIND_RS485_Utils::checkSensorAddress();
-            delay(4000);
-        }
-    }
-
-    void changeWindDireccionSensorAddress() {
-        displayShow("SENSOR ID", "Starting :", "RS485 Wind Direction", "Sensor Address", "Change Procedure...", "check -->", "Serial output");   
-        Serial.println("RS485  Sensor address change procedure.");
-        WIND_RS485_Utils::setup();
-        delay(1000);
-        WIND_RS485_Utils::changeSensorAddress();
-    }
-
-    void checkSwitchesStates() {
-        #if defined(windInfoAddrSwitchPin) && defined(windChangeAddrSwitchPin)
-            if (digitalRead(windInfoAddrSwitchPin) == HIGH && digitalRead(windChangeAddrSwitchPin) == LOW) {
-                checkWindDireccionSensorAddress();
-            } else if (digitalRead(windInfoAddrSwitchPin) == LOW && digitalRead(windChangeAddrSwitchPin) == HIGH) {
-                changeWindDireccionSensorAddress();
-            }
-        #endif
     }
 
     void getI2CAddresses() {
