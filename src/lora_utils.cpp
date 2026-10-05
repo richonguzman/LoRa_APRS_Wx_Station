@@ -12,10 +12,31 @@ extern Configuration    Config;
 bool operationDone   = true;
 bool transmitFlag    = true;
 
+#if defined(HAS_SX1278) || defined(HAS_SX1276)
+    #define CHIP_MIN_POWER  2       // PA_BOOST (below 2 RadioLib switches to RFO, not wired on most modules)
+    #define CHIP_MAX_POWER  20
+#else                               // SX1262 / SX1268 / LLCC68
+    #define CHIP_MIN_POWER  -9
+    #define CHIP_MAX_POWER  22
+#endif
+
+#ifndef RADIO_MAX_POWER             // optional per board in boards_pinout.h (e.g. 1W PA modules)
+    #define RADIO_MAX_POWER CHIP_MAX_POWER
+#endif
+
 namespace LoRa_Utils {
 
     void setFlag(void) {
         operationDone = true;
+    }
+
+    int validPower(int requested) {
+        const int maxPower = (RADIO_MAX_POWER < CHIP_MAX_POWER) ? RADIO_MAX_POWER : CHIP_MAX_POWER;
+        int power = constrain(requested, CHIP_MIN_POWER, maxPower);
+        #if defined(HAS_SX1278) || defined(HAS_SX1276)
+            if (power > 17 && power < 20) power = 17;   // SX127x PA_BOOST: only 2-17 or 20
+        #endif
+        return power;
     }
 
     void setup() {        
@@ -37,8 +58,12 @@ namespace LoRa_Utils {
         radio.setBandwidth(signalBandwidth);
         radio.setCodingRate(Config.loramodule.codingRate4);
         radio.setCRC(true);
-        state = radio.setOutputPower(Config.loramodule.power);
-        radio.setCurrentLimit(100);
+        int power = validPower(Config.loramodule.power);
+        if (power != Config.loramodule.power) {
+            Serial.println("LoRa power adjusted: " + String(Config.loramodule.power) + " -> " + String(power));
+        }
+        state = radio.setOutputPower(power);
+        radio.setCurrentLimit(120);     // OCP ceiling for SX127x: ~120mA needed at +20dBm (not a fixed consumption)
         if (state == RADIOLIB_ERR_NONE) {
             Serial.println("init : LoRa Module    ...     done!");
         } else {

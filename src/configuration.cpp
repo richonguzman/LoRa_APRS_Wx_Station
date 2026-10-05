@@ -10,7 +10,7 @@ bool Configuration::readFile() {
     File configFile = SPIFFS.open("/wxStation_conf.json", "r");
 
     if (configFile) {
-        StaticJsonDocument<2560> data;
+        JsonDocument data;
 
         DeserializationError error = deserializeJson(data, configFile);
         if (error) {
